@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据结构期末复习 - 第0~4章</title>
+<style>
+:root {
+  --bg: #f8f9fa;
+  --bg2: #ffffff;
+  --ink: #1a1a2e;
+  --muted: #6c757d;
+  --rule: #dee2e6;
+  --accent: #2b6cb0;
+  --accent2: #38a169;
+  --danger: #e53e3e;
+  --warning: #d69e2e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===== Cover ===== */
+.cover {
+  background: linear-gradient(135deg, var(--accent) 0%, #1a365d 100%);
+  color: white;
+  padding: 50px 20px;
+  text-align: center;
+}
+.cover h1 { font-size: 2rem; font-weight: 700; margin-bottom: 10px; letter-spacing: 2px; }
+.cover .subtitle { font-size: 1rem; opacity: 0.9; margin-bottom: 16px; }
+
+/* ===== Navigation ===== */
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.nav-bar .container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.nav-bar .nav-title {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.9rem;
+  margin-right: 6px;
+}
+.nav-bar a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-bar a:hover { background: var(--bg); color: var(--accent); }
+.nav-bar a.active { background: var(--accent); color: white; }
+
+/* ===== Chapter ===== */
+.chapter {
+  background: var(--bg2);
+  padding: 40px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.chapter-header {
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--accent);
+}
+.chapter-header h2 {
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.chapter-header .ch-summary { color: var(--muted); font-size: 0.88rem; }
+
+h3 {
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin: 24px 0 12px 0;
+  padding-left: 10px;
+  border-left: 4px solid var(--accent2);
+}
+h4 {
+  font-size: 1rem;
+  color: var(--ink);
+  margin: 18px 0 8px 0;
+  font-weight: 600;
+}
+p { margin-bottom: 10px; text-align: justify; }
+
+/* ===== Boxes ===== */
+.def-box {
+  background: #f0f7ff;
+  border: 1px solid #b3d8ff;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 14px 0;
+}
+.def-box .def-title {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-size: 0.92rem;
+}
+.def-box p { margin-bottom: 4px; }
+.def-box p:last-child { margin-bottom: 0; }
+
+.formula-box {
+  background: #f6ffed;
+  border: 1px solid #b7eb8f;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  text-align: center;
+  font-family: "Cambria Math", "Times New Roman", serif;
+  font-size: 1.05rem;
+}
+
+.tip-box {
+  background: #fffbe6;
+  border: 1px solid #ffe58f;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 12px 0;
+}
+.tip-box .tip-title {
+  font-weight: 700;
+  color: var(--warning);
+  margin-bottom: 4px;
+  font-size: 0.88rem;
+}
+
+.warn-box {
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 12px 0;
+}
+.warn-box .warn-title {
+  font-weight: 700;
+  color: var(--danger);
+  margin-bottom: 4px;
+  font-size: 0.88rem;
+}
+
+/* ===== Tables ===== */
+.table-wrap {
+  overflow-x: auto;
+  margin: 14px 0;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+th {
+  background: var(--accent);
+  color: white;
+  padding: 8px 10px;
+  text-align: center;
+  font-weight: 600;
+}
+td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+  text-align: center;
+}
+tr:nth-child(even) { background: #f8f9fa; }
+tr:hover { background: #e6f7ff; }
+
+/* ===== Example Box ===== */
+.example-box {
+  background: var(--bg2);
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 18px 0;
+}
+.example-box .ex-title {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.example-box .ex-title::before { content: "\1F4CC"; }
+.example-box .ex-question {
+  background: #f0f7ff;
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.example-box .ex-options { margin: 8px 0 12px 18px; }
+.example-box .ex-options li { margin-bottom: 4px; }
+.example-box .ex-answer {
+  background: #f6ffed;
+  border-left: 4px solid var(--accent2);
+  padding: 12px 14px;
+  border-radius: 0 6px 6px 0;
+}
+.example-box .ex-answer .ans-label {
+  font-weight: 700;
+  color: var(--accent2);
+  margin-bottom: 4px;
+}
+
+/* ===== Code ===== */
+code {
+  background: #f4f4f5;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 0.86em;
+  color: #d73a49;
+}
+pre {
+  background: #1e1e2e;
+  color: #cdd6f4;
+  padding: 14px 18px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin: 12px 0;
+}
+pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+
+/* ===== Lists ===== */
+ul, ol { padding-left: 22px; margin-bottom: 10px; }
+li { margin-bottom: 4px; }
+
+/* ===== Strong ===== */
+strong { color: var(--accent); font-weight: 700; }
+
+/* ===== Quick Summary ===== */
+.quick-summary {
+  background: linear-gradient(135deg, #e6f7ff 0%, #f0f7ff 100%);
+  border: 1px solid #b3d8ff;
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 24px 0 10px 0;
+}
+.quick-summary h4 {
+  color: var(--accent);
+  margin: 0 0 10px 0;
+  font-size: 1.05rem;
+  border-left: 4px solid var(--accent);
+  padding-left: 10px;
+}
+.quick-summary ul { margin-bottom: 0; }
+
+/* ===== Back to Top ===== */
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(43,108,176,0.3);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.back-to-top:hover { background: #1a365d; transform: translateY(-2px); }
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .cover h1 { font-size: 1.5rem; }
+  .nav-bar .container { gap: 5px; }
+  .nav-bar a { font-size: 0.75rem; padding: 3px 6px; }
+  body { font-size: 14px; }
+  .container { padding: 0 14px; }
+}
+
+@media print {
+  .nav-bar, .back-to-top { display: none; }
+  .chapter { page-break-before: always; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== COVER ===== -->
+<div class="cover">
+  <div class="container">
+    <h1>数据结构期末复习</h1>
+    <p class="subtitle">第0章 ~ 第4章 | 基础薄弱友好版</p>
+  </div>
+</div>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav-bar" id="navbar">
+  <div class="container">
+    <span class="nav-title">跳转</span>
+    <a href="ds-review.html">主页</a>
+    <a href="#ch0" class="active">第0章</a>
+    <a href="#ch1">第1章</a>
+    <a href="#ch2">第2章</a>
+    <a href="#ch3">第3章</a>
+    <a href="#ch4">第4章</a>
+    <a href="ds-review-part2.html">第5~8章</a>
+    <a href="ds-review-examples.html">例题汇总</a>
+  </div>
+</nav>
+
+<!-- ==================== 第0章 绪论 ==================== -->
+<div class="chapter" id="ch0">
+  <div class="container">
+    <div class="chapter-header">
+      <h2>第0章 绪论</h2>
+      <p class="ch-summary">数据结构基本概念、算法复杂度分析、大O表示法</p>
+    </div>
+
+    <h3>0.1 数据结构的基本概念</h3>
+
+    <div class="def-box">
+      <div class="def-title">数据结构（Data Structure）</div>
+      <p>数据结构是<strong>相互之间存在一种或多种特定关系的数据元素的集合</strong>。它包含三个方面的内容：</p>
+      <p><strong>逻辑结构</strong>：数据元素之间的逻辑关系；<strong>存储结构</strong>：数据在计算机中的表示；<strong>运算</strong>：对数据施加的操作。</p>
+    </div>
+
+    <div class="formula-box">
+      程序 = 数据结构 + 算法 &nbsp;&nbsp;（Wirth公式，Pascal语言之父）
+    </div>
+
+    <h4>核心术语辨析</h4>
+    <div class="table-wrap">
+      <table>
+        <tr><th>术语</th><th>定义</th><th>类比</th></tr>
+        <tr><td>数据（Data）</td><td>所有能被计算机识别、存储和处理的符号集合</td><td>图书馆所有书籍</td></tr>
+        <tr><td>数据元素（Element）</td><td>数据的基本单位，也称为记录</td><td>一本书</td></tr>
+        <tr><td>数据项（Item）</td><td>数据元素的不可分割的最小单位</td><td>书名、作者、ISBN</td></tr>
+        <tr><td>数据对象（Object）</td><td>性质相同的数据元素的集合，是数据的子集</td><td>所有计算机类书籍</td></tr>
+        <tr><td>数据结构（Structure）</td><td>数据元素及其相互关系的集合</td><td>图书馆的分类体系</td></tr>
+      </table>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">记忆技巧</div>
+      <p>数据 &gt; 数据对象 &gt; 数据元素 &gt; 数据项（从大到小）。数据元素是"基本单位"，数据项是"最小单位"。</p>
+    </div>
+
+    <h3>0.2 逻辑结构（四类）</h3>
+    <p>逻辑结构描述的是数据元素之间的逻辑关系，与计算机存储无关。</p>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>逻辑结构</th><th>特征</th><th>实例</th></tr>
+        <tr><td>集合</td><td>元素间只有"同属一个集合"的关系，无其他联系</td><td>一个班级的学生名单</td></tr>
+        <tr><td>线性结构</td><td>元素间一对一关系，除首尾外每个元素有唯一前驱和后继</td><td>数组、链表、栈、队列</td></tr>
+        <tr><td>树形结构</td><td>元素间一对多关系，有层次关系</td><td>文件目录、组织架构</td></tr>
+        <tr><td>图状结构（网状）</td><td>元素间多对多关系，任意两个元素都可能有关系</td><td>社交网络、交通网络</td></tr>
+      </table>
+    </div>
+
+    <h3>0.3 存储结构（物理结构）</h3>
+    <p>存储结构是逻辑结构在计算机中的实现方式，主要有两种：</p>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>对比项</th><th>顺序存储</th><th>链式存储</th></tr>
+        <tr><td>存储方式</td><td>用一段连续的存储单元依次存储</td><td>用任意的存储单元，通过指针链接</td></tr>
+        <tr><td>存取特性</td><td><strong>随机存取</strong>：O(1)访问任意元素</td><td><strong>顺序存取</strong>：必须从头遍历</td></tr>
+        <tr><td>插入删除</td><td>需要移动元素，O(n)</td><td>修改指针即可，O(1)</td></tr>
+        <tr><td>空间利用</td><td>预分配，可能浪费或溢出</td><td>动态分配，需要额外指针空间</td></tr>
+        <tr><td>适用场景</td><td>元素个数固定，频繁查询</td><td>元素个数变化大，频繁增删</td></tr>
+      </table>
+    </div>
+
+    <div class="warn-box">
+      <div class="warn-title">易错点</div>
+      <p>"随机存取"不是随机访问的意思，而是指<strong>可以用下标直接定位到任意位置</strong>，时间复杂度O(1)。链式存储只能"顺序存取"，必须从第一个元素开始依次访问。</p>
+    </div>
+
+    <h3>0.4 抽象数据类型（ADT）</h3>
+    <div class="def-box">
+      <div class="def-title">ADT（Abstract Data Type）</div>
+      <p>抽象数据类型是指一个<strong>数学模型</strong>以及定义在该模型上的一组<strong>操作</strong>。ADT只描述"做什么"，不涉及"怎么做"。</p>
+      <p>ADT的定义形式：ADT = (D, S, P)，其中 D 是数据对象，S 是D上的关系集，P 是对D的基本操作集。</p>
+    </div>
+
+    <h3>0.5 算法的五大特性</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>特性</th><th>含义</th><th>反例</th></tr>
+        <tr><td>有穷性</td><td>算法必须在执行有限步后结束</td><td>死循环不是算法</td></tr>
+        <tr><td>确定性</td><td>每条指令必须有确切的含义，无二义性</td><td>"随便选一个数"不是算法</td></tr>
+        <tr><td>可行性</td><td>算法中描述的操作都可以通过已实现的基本运算执行</td><td>"求一个数的所有小数位"不可行</td></tr>
+        <tr><td>输入</td><td>零个或多个输入</td><td></td></tr>
+        <tr><td>输出</td><td>一个或多个输出</td><td>没有输出的不是算法</td></tr>
+      </table>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">口诀</div>
+      <p>算法特性：<strong>有确可输入输出</strong>（有穷性、确定性、可行性、输入、输出）。注意：算法可以没有输入，但<strong>必须有输出</strong>。</p>
+    </div>
+
+    <h3>0.6 时间复杂度与大O表示法</h3>
+    <div class="def-box">
+      <div class="def-title">时间复杂度</div>
+      <p>时间复杂度是指算法中<strong>基本操作重复执行的次数</strong>是问题规模 n 的某个函数 f(n)，记作 T(n) = O(f(n))。</p>
+      <p>大O表示法的含义：若存在正常数 c 和 n₀，使得当 n ≥ n₀ 时，T(n) ≤ c·f(n)，则称 f(n) 是 T(n) 的渐近上界。</p>
+    </div>
+
+    <h4>大O表示法的计算过程</h4>
+    <p>大O表示法描述的是算法运行时间随问题规模 n 增长的<strong>渐近趋势</strong>，它只保留增长最快的项，并忽略常数系数和低阶项。</p>
+
+    <div class="tip-box">
+      <div class="tip-title">大O计算规则</div>
+      <p><strong>规则1：去掉常数系数</strong>。例如 3n² 中的系数 3 可以忽略，因为当 n 足够大时，系数对增长趋势的影响可以忽略不计。</p>
+      <p><strong>规则2：只保留最高阶项</strong>。例如 n² + n + 1 中，当 n 很大时，n² 的增长速度远快于 n 和常数 1，因此低阶项可以忽略。</p>
+      <p><strong>规则3：常数时间记为 O(1)</strong>。任何与 n 无关的固定操作次数都记为 O(1)。</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title">详细例子：T(n) = 3n² + 2n + 1 为什么等于 O(n²)？</div>
+      <div class="ex-answer">
+        <div class="ans-label">推导过程</div>
+        <p><strong>步骤1：分析各项的增长速度</strong></p>
+        <p>当 n = 10 时：3n² = 300，2n = 20，1 = 1。n² 项占总量的 93%。</p>
+        <p>当 n = 1000 时：3n² = 3,000,000，2n = 2000，1 = 1。n² 项占总量的 99.9%。</p>
+        <p><strong>步骤2：用数学定义证明</strong></p>
+        <p>我们需要找到常数 c 和 n₀，使得当 n ≥ n₀ 时，3n² + 2n + 1 ≤ c·n²。</p>
+        <p>当 n ≥ 1 时：2n ≤ 2n²，1 ≤ n²，因此 3n² + 2n + 1 ≤ 3n² + 2n² + n² = 6n²。</p>
+        <p>取 c = 6，n₀ = 1，则当 n ≥ 1 时，T(n) ≤ 6n²，满足大O定义。</p>
+        <p><strong>结论：T(n) = 3n² + 2n + 1 = O(n²)</strong></p>
+      </div>
+    </div>
+
+    <h4>常见复杂度对比（文字版）</h4>
+    <p>假设 n = 1000，各复杂度对应的操作次数对比：</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>复杂度</th><th>n=10</th><th>n=100</th><th>n=1000</th><th>增长特点</th></tr>
+        <tr><td>O(1)</td><td>1</td><td>1</td><td>1</td><td>恒定不变，最理想</td></tr>
+        <tr><td>O(log n)</td><td>~3</td><td>~7</td><td>~10</td><td>增长极慢，每次翻倍才+1</td></tr>
+        <tr><td>O(n)</td><td>10</td><td>100</td><td>1000</td><td>线性增长，与规模成正比</td></tr>
+        <tr><td>O(n log n)</td><td>~30</td><td>~700</td><td>~10000</td><td>比线性稍慢，可接受</td></tr>
+        <tr><td>O(n²)</td><td>100</td><td>10000</td><td>100万</td><td>平方增长，n翻倍则变为4倍</td></tr>
+        <tr><td>O(2ⁿ)</td><td>1024</td><td>约10³⁰</td><td>约10³⁰¹</td><td>爆炸式增长，n=100就不可解</td></tr>
+      </table>
+    </div>
+
+    <h4>三种时间复杂度详解</h4>
+    <p>同一个算法在不同输入情况下的时间复杂度可能不同，需要分别分析最好、最坏和平均情况。</p>
+
+    <div class="def-box">
+      <div class="def-title">最好时间复杂度</div>
+      <p>最理想情况下，算法执行的时间。即输入数据恰好使算法运行最快的情况。</p>
+    </div>
+    <div class="def-box">
+      <div class="def-title">最坏时间复杂度</div>
+      <p>最不利情况下，算法执行的时间。即输入数据恰好使算法运行最慢的情况。通常以此为准来评价算法。</p>
+    </div>
+    <div class="def-box">
+      <div class="def-title">平均时间复杂度</div>
+      <p>所有可能输入的期望运行时间，需要考虑每种输入出现的概率。</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title">具体例子：顺序查找的三种复杂度</div>
+      <div class="ex-question">
+        在数组 [3, 7, 1, 9, 5] 中顺序查找元素 x。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">解析</div>
+        <p><strong>最好情况 O(1)</strong>：x = 3（第一个元素），只需比较 1 次就找到。</p>
+        <p><strong>最坏情况 O(n)</strong>：x = 5（最后一个元素）或 x 不在数组中，需要比较 n 次。</p>
+        <p><strong>平均情况 O(n)</strong>：假设 x 在数组中的概率均等，且一定在数组中：</p>
+        <p>平均比较次数 = (1 + 2 + 3 + ... + n) / n = n(n+1)/2n = (n+1)/2 ≈ O(n)</p>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title">具体例子：快速排序的三种复杂度</div>
+      <div class="ex-answer">
+        <div class="ans-label">解析</div>
+        <p><strong>最好情况 O(n log n)</strong>：每次划分都能将数组均匀分成两半，递归深度为 log n，每层处理 n 个元素。</p>
+        <p><strong>最坏情况 O(n²)</strong>：数组已经有序（或逆序），每次划分都极不均匀，一个子数组为空，另一个有 n-1 个元素。</p>
+        <p><strong>平均情况 O(n log n)</strong>：随机输入下，划分趋于均匀，期望时间复杂度为 O(n log n)。</p>
+      </div>
+    </div>
+
+    <h4>常见复杂度排序（从小到大）</h4>
+    <div class="formula-box">
+      O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(n³) &lt; O(2ⁿ) &lt; O(n!) &lt; O(nⁿ)
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>复杂度</th><th>名称</th><th>说明</th><th>示例</th></tr>
+        <tr><td>O(1)</td><td>常数阶</td><td>与问题规模无关</td><td>数组按索引访问</td></tr>
+        <tr><td>O(log n)</td><td>对数阶</td><td>每次将问题规模减半</td><td>二分查找</td></tr>
+        <tr><td>O(n)</td><td>线性阶</td><td>与规模成正比</td><td>顺序查找、遍历数组</td></tr>
+        <tr><td>O(n log n)</td><td>线性对数阶</td><td>分治算法常见</td><td>快速排序（平均）、归并排序</td></tr>
+        <tr><td>O(n²)</td><td>平方阶</td><td>双重循环</td><td>冒泡排序、插入排序</td></tr>
+        <tr><td>O(2ⁿ)</td><td>指数阶</td><td>增长极快，尽量避免</td><td>汉诺塔、子集枚举</td></tr>
+      </table>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title">例题 0-1</div>
+      <div class="ex-question">
+        分析以下代码的时间复杂度：<br>
+        <code>for(i=1; i&lt;=n; i=i*2) { sum++; }</code>
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">解析</div>
+        <p>循环变量 i 的变化：1, 2, 4, 8, ..., 2ᵏ。当 2ᵏ ≤ n 时循环继续，即 k ≤ log₂n。</p>
+        <p>循环执行次数约为 log₂n，因此时间复杂度为 <strong>O(log n)</strong>。</p>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title">例题 0-2</div>
+      <div class="ex-question">
+        以下哪个时间复杂度增长最快？<br>
+        A. O(n log n) &nbsp; B. O(n²) &nbsp; C. O(2ⁿ) &nbsp; D. O(n³)
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">答案：C</div>
+        <p>按增长速度排序：O(n log n) &lt; O(n²) &lt; O(n³) &lt; O(2ⁿ)。指数阶 O(2ⁿ) 增长最快。</p>
+      </div>
+    </div>
+
+    <h3>0.7 空间复杂度</h3>
+    <div class="def-box">
+      <div class="def-title">空间复杂度</div>
+      <p>空间复杂度是指算法在执行过程中所需的<strong>辅助存储空间</strong>的量度，也是问题规模 n 的函数，记作 S(n) = O(f(n))。</p>
+      <p>注意：空间复杂度不考虑输入数据本身占用的空间，只考虑算法执行时<strong>额外</strong>需要的空间。</p>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">常见空间复杂度</div>
+      <p>O(1)：原地算法，如冒泡排序、选择排序；O(n)：需要辅助数组，如归并排序；O(log n)：递归栈空间，如快速排序。</p>
+    </div>
+
+    <div class="quick-summary">
+      <h4>本章速记</h4>
+      <ul>
+        <li>Wirth公式：<strong>程序 = 数据结构 + 算法</strong></li>
+        <li>逻辑结构四类：<strong>集合、线性、树、图</strong></li>
+        <li>存储结构两种：<strong>顺序存储（随机存取O(1)）</strong> vs <strong>链式存储（顺序存取）</strong></li>
+        <li>算法五大特性：<strong>有穷、确定、可行、输入、输出</strong></li>
+        <li>复杂度排序：O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ)</li>
+        <li>大O表示法表示<strong>最坏情况</strong>的上界</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 第1章 线性表 ==================== -->
+<div class="chapter" id="ch1">
+  <div class="container">
+    <div class="chapter-header">
+      <h2>第1章 线性表</h2>
+      <p class="ch-summary">顺序表、链表、循环链表、双向链表、查找方法</p>
+    </div>
+
+    <h3>1.1 线性表的定义与特点</h3>
+    <div class="def-box">
+      <div class="def-title">线性表（Linear List）</div>
+      <p>线性表是具有<strong>相同数据类型</strong>的 n（n≥0）个数据元素的<strong>有限序列</strong>。当 n=0 时称为空表。</p>
+      <p>线性表的特点：除第一个元素外，每个元素有且仅有一个<strong>直接前驱</strong>；除最后一个元素外，每个元素有且仅有一个<strong>直接后继</strong>。</p>
+    </div>
+
+    <h3>1.2 顺序存储结构（顺序表）</h3>
+    <p>顺序表用一段<strong>地址连续的存储单元</strong>依次存储线性表的数据元素，通常用数组实现。</p>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>操作</th><th>时间复杂度</th><th>说明</th></tr>
+        <tr><td>按位查找（访问第i个）</td><td>O(1)</td><td>随机存取，Loc(aᵢ) = Loc(a₁) + (i-1)×L</td></tr>
+        <tr><td>按值查找</td><td>O(n)</td><td>顺序扫描</td></tr>
+        <tr><td>插入（第i个位置）</td><td>O(n)</td><td>需移动n-i+1个元素</td></tr>
+        <tr><td>删除（第i个位置）</td><td>O(n)</td><td>需移动n-i个元素</td></tr>
+      </table>
+    </div>
+
+    <div class="formula-box">
+      插入时平均移动次数 = n/2 &nbsp;&nbsp;|&nbsp;&nbsp; 删除时平均移动次数 = (n-1)/2
+    </div>
+
+    <h4>顺序表插入操作（带详细注释）</h4>
+    <pre><code>// 算法思想：在顺序表第i个位置插入元素e
+// 步骤：1) 判断插入位置是否合法 2) 判断表是否已满 3) 将第i个位置及之后的元素后移 4) 插入新元素 5) 表长+1
+// 时间复杂度：O(n)，主要耗时在移动元素
+// 空间复杂度：O(1)
+bool ListInsert(SqList &L, int i, ElemType e) {
+    // 步骤1：判断插入位置i是否合法，i的有效范围是[1, L.length+1]
+    // i=1表示插在表头，i=L.length+1表示插在表尾
+    if(i < 1 || i > L.length + 1)
+        return false;  // 插入位置不合法，返回失败
+    
+    // 步骤2：判断顺序表是否已满
+    // 顺序表容量固定，满时无法继续插入
+    if(L.length >= MaxSize)
+        return false;  // 表满，无法插入
+    
+    // 步骤3：将第i个位置及之后的所有元素向后移动一位
+    // 为什么要从后往前移？如果从前往后移，后面的元素会被覆盖！
+    // 例如：[1,2,3,4]在第2位插入5，从后往前：先4→位置4，再3→位置3，再2→位置4
+    for(int j = L.length; j >= i; j--) {
+        L.data[j] = L.data[j-1];  // 元素后移：将data[j-1]移动到data[j]
+    }
+    
+    // 步骤4：在位置i-1处放入新元素（数组下标从0开始，第i个位置对应下标i-1）
+    L.data[i-1] = e;
+    
+    // 步骤5：表长增加1
+    L.length++;
+    
+    return true;  // 插入成功
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">插入操作具体例子</div>
+      <div class="ex-question">
+        顺序表 L = [10, 20, 30, 40]，在 i=2 位置插入 15。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">执行过程</div>
+        <p>初始：[10, 20, 30, 40]，length=4</p>
+        <p>j=4：data[4]=data[3]，即40移到位置4 → [10, 20, 30, 40, 40]</p>
+        <p>j=3：data[3]=data[2]，即30移到位置3 → [10, 20, 30, 40, 40]</p>
+        <p>j=2：data[2]=data[1]，即20移到位置2 → [10, 20, 30, 40, 40]</p>
+        <p>data[1]=15 → [10, 15, 20, 30, 40]</p>
+        <p>length=5</p>
+      </div>
+    </div>
+
+    <h4>顺序表删除操作（带详细注释）</h4>
+    <pre><code>// 算法思想：删除顺序表第i个位置的元素
+// 步骤：1) 判断删除位置是否合法 2) 保存被删除元素（可选）3) 将第i个位置之后的元素前移 4) 表长-1
+// 时间复杂度：O(n)，主要耗时在移动元素
+// 空间复杂度：O(1)
+bool ListDelete(SqList &L, int i, ElemType &e) {
+    // 步骤1：判断删除位置i是否合法
+    // i的有效范围是[1, L.length]，即只能删除已有元素
+    if(i < 1 || i > L.length)
+        return false;  // 删除位置不合法
+    
+    // 步骤2：保存被删除的元素到e（通过引用传回给调用者）
+    e = L.data[i-1];  // 第i个元素对应数组下标i-1
+    
+    // 步骤3：将第i个位置之后的所有元素向前移动一位
+    // 从前往后移：data[i-1]被data[i]覆盖，data[i]被data[i+1]覆盖，以此类推
+    // 为什么可以从前往后？因为后面的元素还没被覆盖，先移前面的不会丢失数据
+    for(int j = i; j < L.length; j++) {
+        L.data[j-1] = L.data[j];  // 元素前移：将data[j]移动到data[j-1]
+    }
+    
+    // 步骤4：表长减1
+    L.length--;
+    
+    return true;  // 删除成功
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">删除操作具体例子</div>
+      <div class="ex-question">
+        顺序表 L = [10, 20, 30, 40]，删除 i=2 位置的元素。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">执行过程</div>
+        <p>初始：[10, 20, 30, 40]，length=4</p>
+        <p>e = data[1] = 20（保存被删除元素）</p>
+        <p>j=2：data[1]=data[2]，即30移到位置1 → [10, 30, 30, 40]</p>
+        <p>j=3：data[2]=data[3]，即40移到位置2 → [10, 30, 40, 40]</p>
+        <p>length=3 → 有效部分为 [10, 30, 40]</p>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <div class="warn-title">注意</div>
+      <p>顺序表的插入和删除操作，<strong>移动元素的平均次数与表长n成正比</strong>，因此时间复杂度都是O(n)。但按索引访问是O(1)。</p>
+    </div>
+
+    <h3>1.3 链式存储结构（链表）</h3>
+    <p>链表通过<strong>指针</strong>将一组任意的存储单元链接起来，每个结点包含<strong>数据域</strong>和<strong>指针域</strong>。</p>
+
+    <h4>单链表（带头结点）</h4>
+    <div class="def-box">
+      <div class="def-title">头结点 vs 头指针</div>
+      <p><strong>头指针</strong>：指向链表中第一个结点的指针，是链表的入口。</p>
+      <p><strong>头结点</strong>：在首元结点之前附加的一个结点，数据域通常不存信息（或存表长）。</p>
+      <p>带头结点的好处：① 空表和非空表处理统一；② 插入删除第一个位置时操作统一。</p>
+    </div>
+
+    <h4>单链表的创建——头插法（带详细注释）</h4>
+    <pre><code>// 算法思想：每次将新结点插入到头结点之后，输入顺序与链表顺序相反
+// 步骤：1) 创建头结点 2) 循环读入数据 3) 创建新结点 4) 新结点插入到头结点之后
+// 时间复杂度：O(n)，每个元素插入都是O(1)
+// 空间复杂度：O(n)
+LinkList List_HeadInsert(LinkList &L) {
+    // 步骤1：创建头结点并初始化
+    LNode *s;           // s指向新创建的结点
+    int x;              // 存储输入的数据
+    L = (LinkList)malloc(sizeof(LNode));  // 为头结点分配内存
+    L->next = NULL;     // 初始时链表为空，头结点的next指向NULL
+    
+    // 步骤2：循环读入数据，直到输入结束标志（如9999）
+    scanf("%d", &x);    // 读入第一个数据
+    while(x != 9999) {  // 9999作为输入结束标志
+        // 步骤3：创建新结点s
+        s = (LNode*)malloc(sizeof(LNode));  // 为新结点分配内存
+        s->data = x;    // 将读入的数据存入新结点的数据域
+        
+        // 步骤4：将新结点s插入到头结点L之后
+        // 插入操作：先连后断（新结点先指向原来的第一个结点，再让头结点指向新结点）
+        s->next = L->next;  // 新结点的next指向原来的第一个结点（或NULL）
+        L->next = s;        // 头结点的next指向新结点，新结点成为第一个结点
+        
+        scanf("%d", &x);    // 读入下一个数据
+    }
+    return L;  // 返回头指针
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">头插法图示说明</div>
+      <div class="ex-question">
+        用头插法依次插入 1, 2, 3，画出链表变化过程。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">指针变化过程</div>
+        <p><strong>初始状态</strong>：L → [头结点] → NULL</p>
+        <p><strong>插入1后</strong>：L → [头结点] → [1] → NULL</p>
+        <p>操作：s->next = L->next（即NULL）；L->next = s</p>
+        <p><strong>插入2后</strong>：L → [头结点] → [2] → [1] → NULL</p>
+        <p>操作：s->next = L->next（即结点1）；L->next = s</p>
+        <p><strong>插入3后</strong>：L → [头结点] → [3] → [2] → [1] → NULL</p>
+        <p>操作：s->next = L->next（即结点2）；L->next = s</p>
+        <p><strong>结论</strong>：输入顺序 1,2,3，链表顺序 3,2,1（逆序）</p>
+      </div>
+    </div>
+
+    <h4>单链表的创建——尾插法（带详细注释）</h4>
+    <pre><code>// 算法思想：每次将新结点插入到链表末尾，输入顺序与链表顺序相同
+// 步骤：1) 创建头结点 2) 维护尾指针r 3) 循环读入数据 4) 新结点插入到尾指针之后 5) 更新尾指针
+// 时间复杂度：O(n)
+// 空间复杂度：O(n)
+LinkList List_TailInsert(LinkList &L) {
+    // 步骤1：创建头结点
+    int x;              // 存储输入的数据
+    L = (LinkList)malloc(sizeof(LNode));  // 为头结点分配内存
+    
+    // 步骤2：初始化尾指针r指向头结点
+    // r始终指向链表的最后一个结点，方便O(1)时间插入
+    LNode *s, *r = L;   // s指向新结点，r指向尾结点
+    
+    // 步骤3：循环读入数据
+    scanf("%d", &x);    // 读入第一个数据
+    while(x != 9999) {  // 9999作为输入结束标志
+        // 步骤4：创建新结点s
+        s = (LNode*)malloc(sizeof(LNode));  // 为新结点分配内存
+        s->data = x;    // 存入数据
+        
+        // 步骤5：将新结点s插入到尾指针r之后
+        r->next = s;    // 原来尾结点的next指向新结点
+        
+        // 步骤6：更新尾指针r指向新的尾结点
+        r = s;          // r移动到链表末尾
+        
+        scanf("%d", &x);  // 读入下一个数据
+    }
+    
+    // 步骤7：链表结束，尾结点的next置为NULL
+    r->next = NULL;
+    
+    return L;  // 返回头指针
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">尾插法图示说明</div>
+      <div class="ex-question">
+        用尾插法依次插入 1, 2, 3，画出链表变化过程。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">指针变化过程</div>
+        <p><strong>初始状态</strong>：L → [头结点] → NULL，r指向头结点</p>
+        <p><strong>插入1后</strong>：L → [头结点] → [1] → NULL，r指向结点1</p>
+        <p>操作：r->next = s；r = s；r->next = NULL</p>
+        <p><strong>插入2后</strong>：L → [头结点] → [1] → [2] → NULL，r指向结点2</p>
+        <p>操作：r->next = s；r = s；r->next = NULL</p>
+        <p><strong>插入3后</strong>：L → [头结点] → [1] → [2] → [3] → NULL，r指向结点3</p>
+        <p>操作：r->next = s；r = s；r->next = NULL</p>
+        <p><strong>结论</strong>：输入顺序 1,2,3，链表顺序 1,2,3（正序）</p>
+      </div>
+    </div>
+
+    <h4>单链表插入操作（带详细注释和图示说明）</h4>
+    <pre><code>// 算法思想：在结点p之后插入新结点s
+// 步骤：1) 创建新结点s 2) s的next指向p的后继 3) p的next指向s
+// 时间复杂度：O(1)（已知前驱结点p时）
+// 为什么"先连后断"？如果先执行p->next = s，会丢失原来p的后继结点的地址！
+bool InsertNextNode(LNode *p, ElemType e) {
+    // 步骤1：判断p是否为NULL
+    if(p == NULL)
+        return false;
+    
+    // 步骤2：创建新结点s并赋值
+    LNode *s = (LNode*)malloc(sizeof(LNode));
+    if(s == NULL)       // 内存分配失败检查
+        return false;
+    s->data = e;        // 将数据e存入新结点
+    
+    // 步骤3：先连——新结点s的next指向p原来的后继结点
+    // 这样不会丢失p原来的后继
+    s->next = p->next;
+    
+    // 步骤4：后断——p的next指向新结点s
+    // 此时p的后继变为s，s的后继是原来p的后继
+    p->next = s;
+    
+    return true;
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">插入操作指针变化图示</div>
+      <div class="ex-question">
+        在结点 p（值为10）之后插入新结点 s（值为20），p的后继是 q（值为30）。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">指针变化过程</div>
+        <p><strong>插入前</strong>：... → [p:10] → [q:30] → ...</p>
+        <p><strong>步骤1：s->next = p->next</strong></p>
+        <p>s的next指向q：... → [p:10] → [q:30] → ...  且  [s:20] → [q:30]</p>
+        <p><strong>步骤2：p->next = s</strong></p>
+        <p>p的next指向s：... → [p:10] → [s:20] → [q:30] → ...</p>
+        <p><strong>关键理解</strong>：必须先执行s->next = p->next，否则如果先执行p->next = s，q的地址就丢失了！</p>
+      </div>
+    </div>
+
+    <h4>单链表删除操作（带详细注释和图示说明）</h4>
+    <pre><code>// 算法思想：删除结点p的后继结点
+// 步骤：1) 找到要删除的结点q = p->next 2) p的next指向q的后继 3) 释放q的内存
+// 时间复杂度：O(1)（已知前驱结点p时）
+// 为什么"先保存后断开"？先保存q的地址，否则断开后无法释放内存！
+bool DeleteNextNode(LNode *p) {
+    // 步骤1：判断p和p的后继是否为NULL
+    if(p == NULL || p->next == NULL)
+        return false;   // p为空或p是最后一个结点，无法删除后继
+    
+    // 步骤2：保存要删除的结点q
+    // 必须先保存，因为下一步就要断开q了
+    LNode *q = p->next;
+    
+    // 步骤3：p的next跳过q，直接指向q的后继
+    // 这样q就从链表中断开了
+    p->next = q->next;
+    
+    // 步骤4：释放q的内存，防止内存泄漏
+    free(q);
+    
+    return true;
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">删除操作指针变化图示</div>
+      <div class="ex-question">
+        删除结点 p（值为10）的后继结点 q（值为20），q的后继是 r（值为30）。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">指针变化过程</div>
+        <p><strong>删除前</strong>：... → [p:10] → [q:20] → [r:30] → ...</p>
+        <p><strong>步骤1：q = p->next</strong></p>
+        <p>q指向要删除的结点：q → [q:20]</p>
+        <p><strong>步骤2：p->next = q->next</strong></p>
+        <p>p的next指向r：... → [p:10] → [r:30] → ...</p>
+        <p>此时q已经从链表中断开：[q:20] 孤立</p>
+        <p><strong>步骤3：free(q)</strong></p>
+        <p>释放q占用的内存，防止内存泄漏</p>
+        <p><strong>最终结果</strong>：... → [p:10] → [r:30] → ...</p>
+      </div>
+    </div>
+
+    <h4>单链表的基本操作复杂度</h4>
+    <div class="table-wrap">
+      <table>
+        <tr><th>操作</th><th>时间复杂度</th><th>说明</th></tr>
+        <tr><td>按位查找</td><td>O(n)</td><td>从头遍历</td></tr>
+        <tr><td>按值查找</td><td>O(n)</td><td>从头遍历</td></tr>
+        <tr><td>插入（已知前驱）</td><td>O(1)</td><td>修改指针即可</td></tr>
+        <tr><td>删除（已知前驱）</td><td>O(1)</td><td>修改指针即可</td></tr>
+      </table>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">插入/删除指针操作口诀</div>
+      <p>插入：先连后断（新结点的next先指向后继，再让前驱指向新结点）；删除：先保存后断开（先保存要删除的结点，再让前驱指向后继）。</p>
+    </div>
+
+    <h4>循环链表</h4>
+    <p>循环链表的特点是表中最后一个结点的指针域指向<strong>头结点</strong>，整个链表形成一个环。判空条件：头结点的next是否指向自身。</p>
+
+    <h4>双向链表</h4>
+    <p>双向链表的每个结点有两个指针域：<strong>prior</strong>（指向前驱）和 <strong>next</strong>（指向后继）。</p>
+    <div class="tip-box">
+      <div class="tip-title">双向链表特点</div>
+      <p>可以双向遍历；插入删除需要修改<strong>4个指针</strong>；空间开销比单链表大。</p>
+    </div>
+
+    <h3>1.4 查找方法</h3>
+
+    <h4>顺序查找</h4>
+    <p>从表的一端开始，逐个比较关键字，直到找到或遍历完。</p>
+    <div class="formula-box">
+      ASL<sub>成功</sub> = (n+1)/2 &nbsp;&nbsp;|&nbsp;&nbsp; ASL<sub>失败</sub> = n+1（设置哨兵时）或 n（不设置哨兵）
+    </div>
+    <p>ASL（Average Search Length）平均查找长度：查找过程中需要比较的关键字个数的期望值。</p>
+
+    <h4>二分查找（折半查找，带详细注释）</h4>
+    <div class="def-box">
+      <div class="def-title">二分查找条件</div>
+      <p>要求线性表必须是<strong>顺序存储</strong>的<strong>有序表</strong>（通常按关键字递增/递减排列）。</p>
+    </div>
+    <p>基本思想：每次将待查记录所在范围缩小一半。先确定中间位置，比较中间元素与目标值，若相等则找到；若目标值小于中间元素，则在左半区继续查找；否则在右半区继续查找。</p>
+    <div class="formula-box">
+      时间复杂度：<strong>O(log n)</strong> &nbsp;&nbsp;|&nbsp;&nbsp; ASL<sub>成功</sub> ≈ log₂(n+1) - 1
+    </div>
+
+    <h4>二分查找代码实现（带详细注释和防溢出说明）</h4>
+    <pre><code>// 算法思想：在有序顺序表中查找关键字为key的元素
+// 步骤：1) 初始化low=0, high=n-1 2) 计算mid 3) 比较data[mid]与key 4) 根据比较结果调整low或high
+// 时间复杂度：O(log n)
+// 空间复杂度：O(1)
+int BinarySearch(SqList L, ElemType key) {
+    // 步骤1：初始化查找范围的左右边界
+    int low = 0;            // low指向查找范围的最左元素（下标最小）
+    int high = L.length - 1; // high指向查找范围的最右元素（下标最大）
+    int mid;                // mid指向查找范围的中间元素
+    
+    // 步骤2：循环查找，条件是查找范围有效（low <= high）
+    // 当low > high时，说明查找范围为空，查找失败
+    while(low <= high) {
+        // 步骤3：计算中间位置
+        // 【防溢出写法】mid = low + (high - low) / 2
+        // 为什么不写 (low + high) / 2？
+        // 因为当low和high都很大时（接近int最大值），low + high可能溢出！
+        // 例如：low = 2^30, high = 2^30，low + high = 2^31 超出int范围
+        // 而 low + (high - low) / 2 不会出现溢出问题
+        mid = low + (high - low) / 2;
+        
+        // 步骤4：比较中间元素与目标值
+        if(L.data[mid] == key) {
+            // 找到目标，返回其下标
+            return mid;
+        }
+        else if(L.data[mid] > key) {
+            // 中间元素大于目标值，目标在左半区
+            // 调整high，缩小范围到左半区
+            high = mid - 1;  // mid位置已经比较过，下次不需要包含mid
+        }
+        else {
+            // 中间元素小于目标值，目标在右半区
+            // 调整low，缩小范围到右半区
+            low = mid + 1;   // mid位置已经比较过，下次不需要包含mid
+        }
+    }
+    
+    // 步骤5：循环结束仍未找到，返回-1表示查找失败
+    return -1;
+}</code></pre>
+
+    <div class="tip-box">
+      <div class="tip-title">mid计算防溢出说明</div>
+      <p><strong>错误写法</strong>：mid = (low + high) / 2。当 low 和 high 都接近 int 最大值时，low + high 会溢出。</p>
+      <p><strong>正确写法</strong>：mid = low + (high - low) / 2。等价但避免了加法溢出。</p>
+      <p><strong>位运算写法</strong>：mid = low + ((high - low) >> 1)。右移一位等价于除以2，效率略高。</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title">例题 1-1</div>
+      <div class="ex-question">
+        在有序表 {5, 13, 19, 21, 37, 56, 64, 75, 80, 88, 92} 中二分查找 21，需要比较几次？
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">解析</div>
+        <p>第1次：mid=(0+10)/2=5，比较 56，21&lt;56，在左半区 {5,13,19,21,37}</p>
+        <p>第2次：mid=(0+4)/2=2，比较 19，21&gt;19，在右半区 {21,37}</p>
+        <p>第3次：mid=(3+4)/2=3，比较 21，找到！</p>
+        <p>共比较 <strong>3 次</strong>。</p>
+      </div>
+    </div>
+
+    <h4>分块查找（索引顺序查找）</h4>
+    <p>将表分成若干块，块内无序，<strong>块间有序</strong>。建立索引表，索引表按关键字有序。</p>
+    <p>查找过程：先在索引表中确定待查记录所在的块（可用顺序或二分查找），再在块内顺序查找。</p>
+    <div class="formula-box">
+      ASL = L<sub>b</sub>（索引表查找） + L<sub>w</sub>（块内查找）
+    </div>
+
+    <h4>哈希查找（散列查找）</h4>
+    <div class="def-box">
+      <div class="def-title">哈希表</div>
+      <p>哈希表通过一个<strong>哈希函数</strong> H(key) 将关键字直接映射到存储地址，实现 O(1) 的理想查找效率。</p>
+    </div>
+
+    <p><strong>哈希冲突</strong>：不同的关键字通过哈希函数得到相同的地址，称为冲突或碰撞。</p>
+
+    <h4>冲突处理方法</h4>
+    <div class="table-wrap">
+      <table>
+        <tr><th>方法</th><th>原理</th><th>特点</th></tr>
+        <tr><td>链地址法</td><td>冲突元素链接成链表，存储在冲突地址处</td><td>简单、删除方便、可能退化为O(n)</td></tr>
+        <tr><td>开放寻址法</td><td>冲突时按探测序列寻找下一个空地址</td><td>线性探测、二次探测、双散列</td></tr>
+      </table>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">开放寻址法三种探测方式</div>
+      <p><strong>线性探测</strong>：Hᵢ = (H(key) + i) mod m，i=1,2,...（容易产生堆积）</p>
+      <p><strong>二次探测</strong>：Hᵢ = (H(key) + i²) mod m（减少堆积）</p>
+      <p><strong>双散列</strong>：Hᵢ = (H(key) + i×H₂(key)) mod m（效果最好）</p>
+    </div>
+
+    <h4>哈希冲突处理代码（线性探测，带详细注释）</h4>
+    <pre><code>// 算法思想：用开放寻址法的线性探测处理哈希冲突
+// 步骤：1) 计算哈希地址 2) 若冲突则线性探测下一个地址 3) 找到空位或遍历一圈后停止
+// 时间复杂度：最好O(1)，最坏O(n)（所有元素都冲突时）
+// 空间复杂度：O(1)
+
+#define HASH_SIZE 11       // 哈希表长度（通常取质数，减少冲突）
+#define EMPTY -1           // 表示该位置为空
+#define DELETED -2         // 表示该位置被删除（标记删除，方便查找时跳过）
+
+int hashTable[HASH_SIZE];  // 哈希表数组
+
+// 初始化哈希表
+void InitHashTable() {
+    for(int i = 0; i < HASH_SIZE; i++) {
+        hashTable[i] = EMPTY;  // 所有位置初始化为空
+    }
+}
+
+// 哈希函数：除留余数法
+// 为什么选择质数作为模数？因为质数能使关键字更均匀地分布在哈希表中
+int Hash(int key) {
+    return key % HASH_SIZE;  // 返回关键字对表长取模的结果
+}
+
+// 插入操作：将关键字key插入哈希表
+bool HashInsert(int key) {
+    // 步骤1：计算初始哈希地址
+    int addr = Hash(key);    // 先用哈希函数计算应该存放的位置
+    int originalAddr = addr; // 保存初始地址，用于判断是否遍历了一圈
+    int i = 0;               // 探测次数计数器
+    
+    // 步骤2：线性探测寻找空位置
+    // 循环条件：当前位置不空且不是删除标记，且未遍历一圈
+    while(hashTable[addr] != EMPTY && hashTable[addr] != DELETED) {
+        // 如果遍历了一圈还没找到空位，说明表已满
+        if(i >= HASH_SIZE) {
+            return false;    // 哈希表已满，插入失败
+        }
+        
+        i++;  // 探测次数+1
+        // 线性探测：下一个探测位置 = (初始位置 + 探测次数) % 表长
+        // 为什么取模？为了实现循环探测，到达末尾后从头开始
+        addr = (originalAddr + i) % HASH_SIZE;
+    }
+    
+    // 步骤3：找到空位，插入元素
+    hashTable[addr] = key;
+    return true;  // 插入成功
+}
+
+// 查找操作：在哈希表中查找关键字key
+int HashSearch(int key) {
+    // 步骤1：计算初始哈希地址
+    int addr = Hash(key);
+    int originalAddr = addr;
+    int i = 0;
+    
+    // 步骤2：线性探测查找
+    // 循环条件：当前位置不空，且未遍历一圈
+    // 注意：遇到EMPTY才停止，遇到DELETED要继续探测（因为目标可能在后面）
+    while(hashTable[addr] != EMPTY) {
+        if(i >= HASH_SIZE) {
+            return -1;       // 遍历一圈未找到，查找失败
+        }
+        
+        // 步骤3：比较当前位置的元素
+        if(hashTable[addr] == key) {
+            return addr;     // 找到，返回地址
+        }
+        
+        i++;
+        addr = (originalAddr + i) % HASH_SIZE;  // 探测下一个位置
+    }
+    
+    // 步骤4：遇到EMPTY，说明key不在表中
+    return -1;  // 查找失败
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">例题 1-2</div>
+      <div class="ex-question">
+        哈希表长度为11，哈希函数 H(key)=key mod 11，用线性探测处理冲突。依次插入 23, 45, 12, 34, 56，求各元素位置。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">解析</div>
+        <p>H(23)=23 mod 11=1 → 位置1</p>
+        <p>H(45)=45 mod 11=1 → 冲突！探测位置 (1+1) mod 11=2 → 位置2</p>
+        <p>H(12)=12 mod 11=1 → 冲突！探测位置 (1+1)=2冲突，(1+2)=3 → 位置3</p>
+        <p>H(34)=34 mod 11=1 → 冲突！探测到位置4 → 位置4</p>
+        <p>H(56)=56 mod 11=1 → 冲突！探测到位置5 → 位置5</p>
+        <p>最终结果：23→1, 45→2, 12→3, 34→4, 56→5</p>
+      </div>
+    </div>
+
+    <div class="quick-summary">
+      <h4>本章速记</h4>
+      <ul>
+        <li>顺序表：随机存取O(1)，插入删除O(n)</li>
+        <li>单链表：插入删除O(1)（已知前驱），查找O(n)</li>
+        <li>头插法逆序，尾插法正序</li>
+        <li>顺序查找 ASL = (n+1)/2</li>
+        <li>二分查找要求<strong>顺序存储+有序</strong>，复杂度O(log n)</li>
+        <li>哈希冲突处理：<strong>链地址法</strong>、<strong>开放寻址法</strong>（线性/二次/双散列）</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 第2章 栈与队列 ==================== -->
+<div class="chapter" id="ch2">
+  <div class="container">
+    <div class="chapter-header">
+      <h2>第2章 栈与队列</h2>
+      <p class="ch-summary">栈(LIFO)、队列(FIFO)、表达式求值、递归、循环队列</p>
+    </div>
+
+    <h3>2.1 栈（Stack）</h3>
+    <div class="def-box">
+      <div class="def-title">栈的定义</div>
+      <p>栈是只允许在<strong>一端</strong>进行插入或删除操作的线性表。允许插入删除的一端称为<strong>栈顶</strong>，另一端称为<strong>栈底</strong>。</p>
+      <p>栈的特点：<strong>后进先出</strong>（LIFO, Last In First Out）。</p>
+    </div>
+
+    <h4>卡特兰数（Catalan Number）</h4>
+    <p>n 个不同元素进栈，出栈序列的个数为卡特兰数：</p>
+    <div class="formula-box">
+      C(n) = (1/(n+1)) × C(2n, n) = C(2n, n) / (n+1) = (2n)! / ((n+1)! × n!)
+    </div>
+    <p>前几项：C₀=1, C₁=1, C₂=2, C₃=5, C₄=14, C₅=42...</p>
+
+    <div class="example-box">
+      <div class="ex-title">例题 2-1</div>
+      <div class="ex-question">
+        3个元素A、B、C依次进栈，有多少种不同的出栈序列？
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">解析</div>
+        <p>n=3，卡特兰数 C₃ = C(6,3)/4 = 20/4 = <strong>5</strong>。</p>
+        <p>具体序列：ABC, ACB, BAC, BCA, CBA。（注意CAB不可能）</p>
+      </div>
+    </div>
+
+    <h4>顺序栈的push/pop操作（带详细注释）</h4>
+    <pre><code>// 算法思想：用数组实现栈，top指向栈顶元素
+// 初始化：top = -1 表示栈空（top=0表示栈空也是一种写法，此时top指向栈顶元素的下一个位置）
+// 时间复杂度：push和pop都是O(1)
+// 空间复杂度：O(n)，n为栈的最大容量
+
+#define MaxSize 100       // 栈的最大容量
+
+typedef struct {
+    ElemType data[MaxSize]; // 存储栈元素的数组
+    int top;                // 栈顶指针，指向当前栈顶元素
+} SqStack;
+
+// 初始化栈
+void InitStack(SqStack &S) {
+    S.top = -1;  // top=-1表示栈为空，此时栈中没有元素
+}
+
+// 判空操作
+bool StackEmpty(SqStack S) {
+    // 当top==-1时，栈为空
+    return S.top == -1;
+}
+
+// 进栈（Push）操作
+// 步骤：1) 判断栈是否已满 2) top先加1 3) 在top位置存入元素
+bool Push(SqStack &S, ElemType x) {
+    // 步骤1：判断栈是否已满
+    // 当top == MaxSize-1时，栈已满，无法继续入栈
+    if(S.top == MaxSize - 1) {
+        return false;  // 栈满，入栈失败
+    }
+    
+    // 步骤2：栈顶指针先加1，指向新的栈顶位置
+    // 为什么先++？因为当前top指向的是已有元素的栈顶，新元素要放在下一个位置
+    S.top++;
+    
+    // 步骤3：在新栈顶位置存入元素x
+    S.data[S.top] = x;
+    
+    return true;  // 入栈成功
+}
+
+// 出栈（Pop）操作
+// 步骤：1) 判断栈是否为空 2) 取出栈顶元素 3) top减1
+bool Pop(SqStack &S, ElemType &x) {
+    // 步骤1：判断栈是否为空
+    if(S.top == -1) {
+        return false;  // 栈空，出栈失败
+    }
+    
+    // 步骤2：先取出栈顶元素的值，通过引用参数x返回给调用者
+    // 为什么先取值再减top？因为要先拿到数据，再移动指针
+    x = S.data[S.top];
+    
+    // 步骤3：栈顶指针减1，栈顶元素被"逻辑删除"
+    // 注意：data[top]的值还在数组中，只是不再被当作有效元素
+    S.top--;
+    
+    return true;  // 出栈成功
+}
+
+// 读栈顶元素（不出栈）
+bool GetTop(SqStack S, ElemType &x) {
+    if(S.top == -1) {
+        return false;  // 栈空
+    }
+    x = S.data[S.top];  // 读取栈顶元素，但top不变
+    return true;
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">顺序栈操作具体例子</div>
+      <div class="ex-question">
+        对空栈依次执行 Push(10), Push(20), Pop(), Push(30)，画出栈的变化过程。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">执行过程</div>
+        <p><strong>初始</strong>：top = -1，栈：[]（空）</p>
+        <p><strong>Push(10)</strong>：top++ → top=0，data[0]=10，栈：[10]</p>
+        <p><strong>Push(20)</strong>：top++ → top=1，data[1]=20，栈：[10, 20]</p>
+        <p><strong>Pop()</strong>：x=data[1]=20，top-- → top=0，栈：[10]（20被弹出）</p>
+        <p><strong>Push(30)</strong>：top++ → top=1，data[1]=30，栈：[10, 30]</p>
+      </div>
+    </div>
+
+    <h4>两栈共享空间</h4>
+    <p>两个栈共享一个数组空间，栈1从数组头向尾增长，栈2从数组尾向头增长。栈满条件：top1 + 1 == top2。</p>
+
+    <h4>链栈</h4>
+    <p>用链表实现的栈，通常采用<strong>不带头结点的单链表</strong>，所有操作在表头进行。栈顶指针就是链表的头指针。</p>
+
+    <h3>2.2 队列（Queue）</h3>
+    <div class="def-box">
+      <div class="def-title">队列的定义</div>
+      <p>队列是只允许在<strong>一端插入</strong>（队尾rear），在<strong>另一端删除</strong>（队头front）的线性表。</p>
+      <p>队列的特点：<strong>先进先出</strong>（FIFO, First In First Out）。</p>
+    </div>
+
+    <h4>顺序队列与假溢出</h4>
+    <p>顺序队列用数组实现，队头指针 front 指向队头元素，队尾指针 rear 指向队尾元素的下一个位置。</p>
+    <div class="warn-box">
+      <div class="warn-title">假溢出问题</div>
+      <p>当 rear 到达数组末尾时，虽然数组前面有空位置，但无法继续入队，这种现象称为"假溢出"。</p>
+      <p>解决方法：使用<strong>循环队列</strong>。</p>
+    </div>
+
+    <h4>循环队列（带详细注释）</h4>
+    <p>将顺序队列的存储区看成是一个首尾相接的圆环。指针移动采用取模运算：</p>
+    <div class="formula-box">
+      rear = (rear + 1) mod MaxSize &nbsp;&nbsp;|&nbsp;&nbsp; front = (front + 1) mod MaxSize
+    </div>
+
+    <pre><code>// 算法思想：用数组实现循环队列，通过取模运算实现首尾相接
+// 判空判满策略：牺牲一个存储单元，(rear+1)%MaxSize==front时认为队满
+// 时间复杂度：入队和出队都是O(1)
+// 空间复杂度：O(n)，n为队列容量
+
+#define MaxSize 100       // 队列最大容量（实际最多存储MaxSize-1个元素）
+
+typedef struct {
+    ElemType data[MaxSize]; // 存储队列元素的数组
+    int front;              // 队头指针，指向队头元素
+    int rear;               // 队尾指针，指向队尾元素的下一个位置
+} SqQueue;
+
+// 初始化队列
+void InitQueue(SqQueue &Q) {
+    Q.front = 0;  // 队头指针初始化为0
+    Q.rear = 0;   // 队尾指针初始化为0
+    // 队空条件：front == rear
+}
+
+// 判空操作（带详细注释）
+bool QueueEmpty(SqQueue Q) {
+    // 为什么队空条件是 front == rear？
+    // 因为初始化时front=rear=0，此时队列为空
+    // 当元素全部出队后，front会追上rear，再次满足front==rear
+    return Q.front == Q.rear;
+}
+
+// 判满操作（带详细注释）
+bool QueueFull(SqQueue Q) {
+    // 为什么队满条件是 (rear+1)%MaxSize == front？
+    // 如果不牺牲一个单元，当rear追上front时，无法区分是队空还是队满
+    // 牺牲一个单元后：
+    // - 队空：front == rear
+    // - 队满：(rear+1)%MaxSize == front（rear的下一个位置是front）
+    // 这样就有明确的区分了
+    return (Q.rear + 1) % MaxSize == Q.front;
+}
+
+// 入队（EnQueue）操作
+// 步骤：1) 判断队列是否已满 2) 在rear位置存入元素 3) rear向后移动
+bool EnQueue(SqQueue &Q, ElemType x) {
+    // 步骤1：判断队列是否已满
+    if(QueueFull(Q)) {
+        return false;  // 队满，入队失败
+    }
+    
+    // 步骤2：在队尾位置存入元素x
+    // rear指向队尾元素的下一个位置，所以直接存入data[rear]
+    Q.data[Q.rear] = x;
+    
+    // 步骤3：队尾指针向后移动一位
+    // 使用取模运算实现循环：到达数组末尾后回到开头
+    Q.rear = (Q.rear + 1) % MaxSize;
+    
+    return true;  // 入队成功
+}
+
+// 出队（DeQueue）操作
+// 步骤：1) 判断队列是否为空 2) 取出队头元素 3) front向后移动
+bool DeQueue(SqQueue &Q, ElemType &x) {
+    // 步骤1：判断队列是否为空
+    if(QueueEmpty(Q)) {
+        return false;  // 队空，出队失败
+    }
+    
+    // 步骤2：取出队头元素的值，通过引用参数x返回
+    // front指向队头元素，所以直接读取data[front]
+    x = Q.data[Q.front];
+    
+    // 步骤3：队头指针向后移动一位
+    // 使用取模运算实现循环
+    Q.front = (Q.front + 1) % MaxSize;
+    
+    return true;  // 出队成功
+}
+
+// 获取队列元素个数
+int QueueLength(SqQueue Q) {
+    // 为什么这样计算？
+    // 正常情况下：rear - front 就是元素个数
+    // 但当rear < front时（循环了一圈），需要加上MaxSize
+    // 例如：MaxSize=10，front=8，rear=2，实际有(2-8+10)%10=4个元素
+    return (Q.rear - Q.front + MaxSize) % MaxSize;
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">循环队列操作具体例子</div>
+      <div class="ex-question">
+        MaxSize=5，依次执行 EnQueue(10), EnQueue(20), EnQueue(30), DeQueue(), EnQueue(40), EnQueue(50)，画出队列变化。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">执行过程</div>
+        <p><strong>初始</strong>：front=0, rear=0，队列：[]</p>
+        <p><strong>EnQueue(10)</strong>：data[0]=10, rear=(0+1)%5=1，队列：[10]</p>
+        <p><strong>EnQueue(20)</strong>：data[1]=20, rear=2，队列：[10, 20]</p>
+        <p><strong>EnQueue(30)</strong>：data[2]=30, rear=3，队列：[10, 20, 30]</p>
+        <p><strong>DeQueue()</strong>：x=data[0]=10, front=1，队列：[20, 30]</p>
+        <p><strong>EnQueue(40)</strong>：data[3]=40, rear=4，队列：[20, 30, 40]</p>
+        <p><strong>EnQueue(50)</strong>：data[4]=50, rear=(4+1)%5=0，队列：[20, 30, 40, 50]</p>
+        <p>此时 rear=0, front=1，(rear+1)%5=1==front，队列已满！</p>
+        <p>注意：虽然数组下标0的位置空着，但这是牺牲的一个单元，用于区分队空和队满</p>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">循环队列判空/判满总结</div>
+      <p><strong>队空</strong>：front == rear（初始化状态，或所有元素都已出队）</p>
+      <p><strong>队满</strong>：(rear + 1) mod MaxSize == front（rear的下一个位置就是front）</p>
+      <p><strong>元素个数</strong>：(rear - front + MaxSize) mod MaxSize</p>
+      <p><strong>为什么牺牲一个单元？</strong>如果不牺牲，队空和队满都是 front == rear，无法区分。</p>
+    </div>
+
+    <h4>链式队列</h4>
+    <p>用链表实现的队列，需要同时维护<strong>队头指针</strong>和<strong>队尾指针</strong>。通常带头结点，方便操作统一。</p>
+
+    <h4>双端队列（Deque）</h4>
+    <p>双端队列允许在<strong>两端</strong>进行插入和删除操作。若限定一端只能插入、另一端只能删除，则称为<strong>输入受限</strong>或<strong>输出受限</strong>的双端队列。</p>
+
+    <h3>2.3 栈的应用</h3>
+
+    <h4>表达式求值（中缀转后缀）</h4>
+    <p><strong>中缀表达式</strong>：运算符在两个操作数之间，如 A+B。 <strong>后缀表达式（逆波兰式）</strong>：运算符在两个操作数之后，如 AB+。</p>
+
+    <div class="tip-box">
+      <div class="tip-title">中缀转后缀算法（栈实现）</div>
+      <p>1. 遇到操作数：直接输出；2. 遇到左括号：入栈；3. 遇到右括号：弹出栈顶并输出，直到遇到左括号（左括号弹出但不输出）；4. 遇到运算符：弹出栈中优先级≥当前运算符的所有运算符并输出，当前运算符入栈；5. 遍历结束后，弹出栈中所有运算符。</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title">例题 2-2：中缀转后缀详细过程</div>
+      <div class="ex-question">
+        将中缀表达式 "3+4*2/(1-5)" 转换为后缀表达式，写出每一步的栈状态和输出。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">完整转换过程</div>
+        <p><strong>初始化</strong>：输出=""，栈=[]</p>
+        <p><strong>读取 '3'</strong>：是操作数，直接输出。输出="3"，栈=[]</p>
+        <p><strong>读取 '+'</strong>：栈空，直接入栈。输出="3"，栈=[+]</p>
+        <p><strong>读取 '4'</strong>：是操作数，直接输出。输出="34"，栈=[+]</p>
+        <p><strong>读取 '*'</strong>：栈顶是'+'，优先级* > +，*入栈。输出="34"，栈=[+, *]</p>
+        <p><strong>读取 '2'</strong>：是操作数，直接输出。输出="342"，栈=[+, *]</p>
+        <p><strong>读取 '/'</strong>：栈顶是'*'，优先级/ == *，弹出*输出，/入栈。输出="342*"，栈=[+, /]</p>
+        <p><strong>读取 '('</strong>：左括号直接入栈。输出="342*"，栈=[+, /, (]</p>
+        <p><strong>读取 '1'</strong>：是操作数，直接输出。输出="342*1"，栈=[+, /, (]</p>
+        <p><strong>读取 '-'</strong>：栈顶是'('，直接入栈。输出="342*1"，栈=[+, /, (, -]</p>
+        <p><strong>读取 '5'</strong>：是操作数，直接输出。输出="342*15"，栈=[+, /, (, -]</p>
+        <p><strong>读取 ')'</strong>：弹出栈顶直到'('，弹出-输出，弹出(丢弃。输出="342*15-"，栈=[+, /]</p>
+        <p><strong>结束</strong>：弹出栈中所有运算符，先/后+。输出="342*15-/+"，栈=[]</p>
+        <p><strong>最终结果</strong>：<strong>342*15-/+</strong></p>
+      </div>
+    </div>
+
+    <h4>迷宫求解（DFS，带详细注释）</h4>
+    <pre><code>// 算法思想：使用栈实现深度优先搜索（DFS）求解迷宫
+// 步骤：1) 从入口出发 2) 选择一个方向前进 3) 能走通则入栈并继续前进 4) 走不通则出栈回溯 5) 直到找到出口或栈空
+// 时间复杂度：O(m*n)，m和n为迷宫的行数和列数
+// 空间复杂度：O(m*n)，栈的最大深度
+
+#define MAX_ROW 100
+#define MAX_COL 100
+
+// 方向数组：右、下、左、上（顺时针方向）
+// di和dj配合使用：di[k]表示行偏移，dj[k]表示列偏移
+int di[] = {0, 1, 0, -1};  // 行偏移：右(0)、下(+1)、左(0)、上(-1)
+int dj[] = {1, 0, -1, 0};  // 列偏移：右(+1)、下(0)、左(-1)、上(0)
+
+// 迷宫地图：0表示通路，1表示墙
+// mg[i][j] == 0 表示位置(i,j)可以走
+int mg[MAX_ROW][MAX_COL];
+
+// 访问标记数组：防止重复访问同一个位置
+int visited[MAX_ROW][MAX_COL];
+
+// 栈中存储的元素：当前位置和当前尝试的方向
+// 为什么保存方向？因为回溯时需要知道上次试到哪个方向了，下次从下一个方向继续试
+typedef struct {
+    int i;      // 当前位置的行坐标
+    int j;      // 当前位置的列坐标
+    int dir;    // 当前尝试的方向（0=右，1=下，2=左，3=上）
+} Box;
+
+// 求解迷宫：从入口(si,sj)到出口(ei,ej)的路径
+bool MazePath(int si, int sj, int ei, int ej) {
+    SqStack S;          // 定义栈，保存走过的路径
+    InitStack(S);       // 初始化栈
+    
+    // 步骤1：将入口位置入栈
+    Box temp;
+    temp.i = si;        // 入口行坐标
+    temp.j = sj;        // 入口列坐标
+    temp.dir = -1;      // 入口位置还没有尝试任何方向
+    Push(S, temp);      // 入口入栈
+    visited[si][sj] = 1; // 标记入口已访问
+    
+    // 步骤2：开始搜索，当栈不为空时继续
+    while(!StackEmpty(S)) {
+        // 取出栈顶元素（当前位置），但不弹出
+        Box cur = S.data[S.top];
+        
+        // 步骤3：检查是否到达出口
+        if(cur.i == ei && cur.j == ej) {
+            return true;  // 找到路径！栈中保存的就是完整路径
+        }
+        
+        // 步骤4：尝试四个方向
+        int d = cur.dir + 1;  // 从上一个方向的下一个方向开始尝试
+        bool found = false;   // 标记是否找到可行的方向
+        
+        while(d < 4) {
+            // 计算下一个位置的坐标
+            int ni = cur.i + di[d];  // 下一个位置的行
+            int nj = cur.j + dj[d];  // 下一个位置的列
+            
+            // 步骤5：检查下一个位置是否可行
+            // 条件：在迷宫范围内、不是墙、未访问过
+            if(ni >= 0 && ni < MAX_ROW && nj >= 0 && nj < MAX_COL
+               && mg[ni][nj] == 0 && visited[ni][nj] == 0) {
+                
+                // 找到可行方向，更新当前位置的尝试方向
+                S.data[S.top].dir = d;
+                
+                // 将新位置入栈
+                Box next;
+                next.i = ni;
+                next.j = nj;
+                next.dir = -1;  // 新位置还没有尝试任何方向
+                Push(S, next);
+                visited[ni][nj] = 1;  // 标记新位置已访问
+                
+                found = true;
+                break;  // 找到方向就跳出，继续处理新位置
+            }
+            
+            d++;  // 当前方向不可行，尝试下一个方向
+        }
+        
+        // 步骤6：如果四个方向都走不通，回溯（出栈）
+        if(!found) {
+            Box back;
+            Pop(S, back);  // 弹出当前位置，回溯到上一个位置
+            // 注意：不需要取消visited标记，因为DFS不需要重复访问
+        }
+    }
+    
+    // 步骤7：栈空且未找到出口，迷宫无解
+    return false;
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">迷宫求解示例</div>
+      <div class="ex-question">
+        简单迷宫（S为入口，E为出口，0为通路，1为墙）：<br>
+        S 0 1<br>
+        0 0 1<br>
+        1 0 E
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">DFS搜索过程</div>
+        <p><strong>起点(0,0)</strong>入栈，尝试右→(0,1)是0，入栈</p>
+        <p><strong>(0,1)</strong>尝试右→(0,2)是1，不通；尝试下→(1,1)是0，入栈</p>
+        <p><strong>(1,1)</strong>尝试右→(1,2)是1，不通；尝试下→(2,1)是0，入栈</p>
+        <p><strong>(2,1)</strong>尝试右→(2,2)是E，到达出口！</p>
+        <p><strong>路径</strong>：(0,0) → (0,1) → (1,1) → (2,1) → (2,2)</p>
+        <p><strong>栈的变化</strong>：[(0,0)] → [(0,0),(0,1)] → [(0,0),(0,1),(1,1)] → [(0,0),(0,1),(1,1),(2,1)]</p>
+      </div>
+    </div>
+
+    <h4>递归转非递归</h4>
+    <p>递归的执行过程本质上就是栈的操作。可以用显式栈将递归算法改写为非递归形式。</p>
+
+    <h3>2.4 队列的应用</h3>
+    <ul>
+      <li><strong>广度优先搜索（BFS）</strong>：图的层次遍历使用队列保存待访问的结点</li>
+      <li><strong>缓冲区</strong>：如打印机任务队列、CPU进程调度</li>
+      <li><strong>层次遍历</strong>：二叉树的层次遍历</li>
+    </ul>
+
+    <div class="quick-summary">
+      <h4>本章速记</h4>
+      <ul>
+        <li>栈：<strong>LIFO</strong>，后进先出；队列：<strong>FIFO</strong>，先进先出</li>
+        <li>n个元素进栈，出栈序列数 = <strong>卡特兰数 C(2n,n)/(n+1)</strong></li>
+        <li>循环队列判满：(rear+1) mod m == front；判空：front == rear</li>
+        <li>中缀转后缀：操作数直接输出，运算符按优先级入栈</li>
+        <li>BFS用<strong>队列</strong>，DFS用<strong>栈</strong>（或递归）</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 第3章 串 ==================== -->
+<div class="chapter" id="ch3">
+  <div class="container">
+    <div class="chapter-header">
+      <h2>第3章 串</h2>
+      <p class="ch-summary">串的定义与操作、BF算法、KMP算法、字符串哈希</p>
+    </div>
+
+    <h3>3.1 串的定义与存储</h3>
+    <div class="def-box">
+      <div class="def-title">串（String）</div>
+      <p>串是由<strong>零个或多个字符</strong>组成的有限序列，记作 S = "a₁a₂...aₙ"。n=0 时称为空串。</p>
+      <p><strong>子串</strong>：串中任意个连续的字符组成的子序列。<strong>主串</strong>：包含子串的串。</p>
+      <p><strong>空格串</strong>：由一个或多个空格组成的串，与空串不同。</p>
+    </div>
+
+    <h4>串的存储结构</h4>
+    <div class="table-wrap">
+      <table>
+        <tr><th>存储方式</th><th>特点</th></tr>
+        <tr><td>顺序存储（定长）</td><td>用字符数组存储，长度固定，超过会"截断"</td></tr>
+        <tr><td>顺序存储（堆分配）</td><td>动态分配存储空间，更灵活</td></tr>
+        <tr><td>链式存储（块链）</td><td>每个结点存储多个字符，提高空间利用率</td></tr>
+      </table>
+    </div>
+
+    <h4>串的基本操作</h4>
+    <ul>
+      <li><strong>StrAssign</strong>：赋值</li>
+      <li><strong>StrCopy</strong>：复制</li>
+      <li><strong>StrLength</strong>：求串长</li>
+      <li><strong>StrCompare</strong>：比较（按字典序）</li>
+      <li><strong>Concat</strong>：连接</li>
+      <li><strong>SubString</strong>：求子串</li>
+      <li><strong>Index</strong>：定位（模式匹配）</li>
+      <li><strong>ClearString / DestroyString</strong>：清空/销毁</li>
+    </ul>
+
+    <h3>3.2 模式匹配</h3>
+    <p>模式匹配是在主串 S 中查找子串 T 的位置。T 称为<strong>模式串</strong>。</p>
+
+    <h4>BF算法（暴力匹配/朴素匹配，带详细注释）</h4>
+    <p>基本思想：从主串 S 的第一个字符开始，与模式串 T 逐个比较；若失配，则 S 的指针<strong>i回退</strong>到本轮起始位置的下一个，T 的指针 j 回到开头，重新开始比较。</p>
+
+    <div class="formula-box">
+      BF算法时间复杂度：最好 O(n+m)，最坏 O(n×m)，平均 O(n×m)
+    </div>
+
+    <h4>BF算法代码实现（带逐行注释）</h4>
+    <pre><code>// 算法思想：暴力匹配，主串指针i回退，模式串指针j回退到开头
+// 步骤：1) 初始化i=0,j=0 2) 逐个比较S[i]和T[j] 3) 相等则i++,j++ 4) 不等则i回退到本轮起始+1，j=0
+// 时间复杂度：最坏O(n*m)，最好O(n+m)
+// 空间复杂度：O(1)
+int BF(String S, String T) {
+    // 步骤1：初始化指针
+    int i = 0;  // i指向主串S中当前比较的字符
+    int j = 0;  // j指向模式串T中当前比较的字符
+    
+    // 步骤2：循环比较，条件是i和j都没有越界
+    // i <= S.length - T.length 可以优化，但这里写完整版本
+    while(i < S.length && j < T.length) {
+        // 步骤3：比较当前字符
+        if(S.ch[i] == T.ch[j]) {
+            // 当前字符相等，两个指针都向后移动，继续比较下一个字符
+            i++;
+            j++;
+        }
+        else {
+            // 步骤4：当前字符不等，发生失配
+            // i回退到本轮比较起始位置的下一个位置
+            // 本轮起始位置 = i - j，所以下一个位置 = i - j + 1
+            i = i - j + 1;
+            
+            // j回退到模式串开头，重新开始比较
+            j = 0;
+        }
+    }
+    
+    // 步骤5：判断匹配结果
+    // 如果j == T.length，说明模式串T的所有字符都匹配成功
+    if(j >= T.length) {
+        // 返回匹配成功的起始位置
+        // i是匹配结束后主串的位置，减去模式串长度就是起始位置
+        return i - T.length;
+    }
+    else {
+        // j < T.length 但 i >= S.length，说明主串遍历完但未匹配成功
+        return -1;  // 匹配失败
+    }
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">例题 3-1</div>
+      <div class="ex-question">
+        主串 S="abcabcabd"，模式串 T="abcabd"，用BF算法匹配过程。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">解析</div>
+        <p>第1趟：S[0..5]=abcabc vs T=abcabd，第5位 c≠d，失配</p>
+        <p>第2趟：i回退到1，S[1..6]=bcabca vs T=abcabd，第0位 b≠a，失配</p>
+        <p>第3趟：i回退到2，S[2..7]=cabcab vs T=abcabd，第0位 c≠a，失配</p>
+        <p>第4趟：i回退到3，S[3..8]=abcabd vs T=abcabd，完全匹配！</p>
+        <p>返回位置 3。</p>
+      </div>
+    </div>
+
+    <h4>KMP算法</h4>
+    <div class="def-box">
+      <div class="def-title">KMP算法核心思想</div>
+      <p>KMP算法利用已经匹配的部分信息，<strong>主串指针 i 不回退</strong>，只移动模式串。通过预处理模式串得到 next 数组，指导模式串的移动。</p>
+    </div>
+
+    <p>KMP的关键是求 <strong>next 数组</strong>：next[j] 表示当模式串第 j 个字符失配时，模式串应该回溯到的位置。</p>
+
+    <div class="formula-box">
+      next[j] = 模式串 T[0..j-1] 中<strong>最长相等前后缀</strong>的长度
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">next数组计算步骤</div>
+      <p>1. next[0] = -1（或0，视教材而定）；2. 对于每个 j，找 T[0..j-1] 的最长相等前后缀；3. next[j] = 该最长相等前后缀的长度。</p>
+    </div>
+
+    <h4>next数组计算代码（带详细注释）</h4>
+    <pre><code>// 算法思想：利用已计算的next值递推计算下一个next值
+// 核心：next[j]表示T[0..j-1]的最长相等前后缀长度
+// 步骤：1) next[0]=-1 2) 用双指针i和j递推 3) 相等则next[j+1]=i+1 4) 不等则i回退到next[i]
+// 时间复杂度：O(m)，m为模式串长度
+// 空间复杂度：O(m)
+void GetNext(String T, int next[]) {
+    // 步骤1：初始化
+    int i = 0;      // i指向当前最长相等前缀的末尾（也是后缀的末尾）
+    int j = -1;     // j指向当前要计算的位置的前一个位置
+    next[0] = -1;   // next[0]固定为-1，表示模式串第一个字符失配时，整体右移一位
+    
+    // 步骤2：递推计算next数组
+    // 循环条件：i还没有遍历完模式串
+    while(i < T.length - 1) {
+        // 情况1：j == -1 或 T[i] == T[j]
+        // j == -1：表示已经没有更短的前后缀可以匹配，next[i+1] = 0
+        // T[i] == T[j]：表示最长相等前后缀可以扩展一位
+        if(j == -1 || T.ch[i] == T.ch[j]) {
+            // i和j都向后移动一位
+            i++;
+            j++;
+            
+            // next[i]记录的是T[0..i-1]的最长相等前后缀长度
+            // 此时j正好等于这个长度（因为j从0开始计数）
+            next[i] = j;
+            
+            // 为什么next[i]=j？
+            // 因为T[0..j-1] == T[i-j..i-1]，即长度为j的前后缀相等
+            // 所以当T[i]失配时，可以将T[0..j-1]对齐到T[i-j..i-1]的位置
+            // 下一次比较T[j]和主串的当前字符
+        }
+        else {
+            // 情况2：T[i] != T[j]，前后缀无法扩展
+            // 需要回退j到next[j]，尝试更短的前后缀
+            // 为什么回退到next[j]？因为next[j]是T[0..j-1]的最长相等前后缀长度
+            // 这意味着T[0..next[j]-1] == T[j-next[j]..j-1]
+            // 所以可以尝试用更短的前后缀来匹配
+            j = next[j];
+            
+            // 注意：这里i不变，只移动j
+            // 因为我们要在T[0..i-1]中寻找更短的相等前后缀
+        }
+    }
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">例题 3-2：next数组计算详细过程</div>
+      <div class="ex-question">
+        求模式串 T="ababaca" 的 next 数组，写出每一步的推导过程。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">详细推导过程</div>
+        <p><strong>初始化</strong>：next[0] = -1，i=0，j=-1</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>计算 next[1]</strong>：i=0, j=-1，j==-1，所以i=1, j=0, next[1]=0</p>
+        <p>T[0..0]="a"，无前后缀，next[1]=0</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>计算 next[2]</strong>：i=1, j=0，T[1]='b' != T[0]='a'</p>
+        <p>j = next[0] = -1，然后j==-1，所以i=2, j=0, next[2]=0</p>
+        <p>T[0..1]="ab"，无相等前后缀，next[2]=0</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>计算 next[3]</strong>：i=2, j=0，T[2]='a' == T[0]='a'</p>
+        <p>i=3, j=1, next[3]=1</p>
+        <p>T[0..2]="aba"，前缀"a"=后缀"a"，长度1，next[3]=1</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>计算 next[4]</strong>：i=3, j=1，T[3]='b' == T[1]='b'</p>
+        <p>i=4, j=2, next[4]=2</p>
+        <p>T[0..3]="abab"，前缀"ab"=后缀"ab"，长度2，next[4]=2</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>计算 next[5]</strong>：i=4, j=2，T[4]='a' == T[2]='a'</p>
+        <p>i=5, j=3, next[5]=3</p>
+        <p>T[0..4]="ababa"，前缀"aba"=后缀"aba"，长度3，next[5]=3</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>计算 next[6]</strong>：i=5, j=3，T[5]='c' != T[3]='b'</p>
+        <p>j = next[3] = 1，T[5]='c' != T[1]='b'</p>
+        <p>j = next[1] = 0，T[5]='c' != T[0]='a'</p>
+        <p>j = next[0] = -1，j==-1，所以i=6, j=0, next[6]=0</p>
+        <p>T[0..5]="ababac"，无相等前后缀，next[6]=0</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>最终结果</strong>：next = [-1, 0, 0, 1, 2, 3, 0]</p>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title">例题 3-3</div>
+      <div class="ex-question">
+        求模式串 T="ababaa" 的 next 数组。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">解析</div>
+        <p>j=0: next[0] = -1（固定）</p>
+        <p>j=1: T[0..0]="a"，无前后缀，next[1]=0</p>
+        <p>j=2: T[0..1]="ab"，无相等前后缀，next[2]=0</p>
+        <p>j=3: T[0..2]="aba"，"a"="a"，最长相等前后缀长1，next[3]=1</p>
+        <p>j=4: T[0..3]="abab"，"ab"="ab"，最长相等前后缀长2，next[4]=2</p>
+        <p>j=5: T[0..4]="ababa"，"aba"="aba"，最长相等前后缀长3，next[5]=3</p>
+        <p>next数组：<strong>[-1, 0, 0, 1, 2, 3]</strong></p>
+      </div>
+    </div>
+
+    <div class="formula-box">
+      KMP算法时间复杂度：<strong>O(n + m)</strong>，其中 n 是主串长度，m 是模式串长度
+    </div>
+
+    <h4>next数组的改进（nextval数组）</h4>
+    <p>当模式串中存在连续相等的字符时，next数组可能导致不必要的比较。nextval数组进一步优化：</p>
+    <pre><code>// nextval计算：如果T[j] == T[next[j]]，则nextval[j] = nextval[next[j]]
+// 这样可以避免连续相同的字符导致的无效比较
+nextval[0] = -1;
+for(j=1; j&lt;m; j++) {
+    if(T[j] == T[next[j]]) 
+        nextval[j] = nextval[next[j]];
+    else 
+        nextval[j] = next[j];
+}</code></pre>
+
+    <h3>3.3 字符串哈希</h3>
+    <p>字符串哈希将字符串映射为一个整数，用于快速比较字符串是否相等。</p>
+
+    <h4>多项式哈希</h4>
+    <div class="formula-box">
+      H(S) = (S[0]×P^(n-1) + S[1]×P^(n-2) + ... + S[n-1]×P^0) mod M
+    </div>
+    <p>其中 P 是基数（通常取131或13331），M 是模数（通常取大质数或2^64）。</p>
+
+    <h4>前缀哈希与子串哈希O(1)</h4>
+    <p>预处理前缀哈希数组 H[i] = hash(S[0..i-1])，则子串 S[l..r] 的哈希值为：</p>
+    <div class="formula-box">
+      hash(S[l..r]) = (H[r+1] - H[l] × P^(r-l+1)) mod M
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">字符串哈希应用</div>
+      <p>1. 快速判断两个子串是否相等；2. 字符串匹配；3. 判断回文串；4. 最长重复子串。</p>
+    </div>
+
+    <div class="quick-summary">
+      <h4>本章速记</h4>
+      <ul>
+        <li>BF算法：i回退，最坏O(nm)</li>
+        <li>KMP算法：i不回退，O(n+m)，核心是<strong>next数组</strong></li>
+        <li>next[j] = T[0..j-1]的最长相等前后缀长度</li>
+        <li>字符串哈希：多项式哈希 + 前缀哈希，子串哈希O(1)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 第4章 树与二叉树 ==================== -->
+<div class="chapter" id="ch4">
+  <div class="container">
+    <div class="chapter-header">
+      <h2>第4章 树与二叉树</h2>
+      <p class="ch-summary">树的遍历、二叉树性质、Huffman树与编码</p>
+    </div>
+
+    <h3>4.1 树的基本术语</h3>
+    <div class="def-box">
+      <div class="def-title">树（Tree）</div>
+      <p>树是 n（n≥0）个结点的有限集合。当 n=0 时称为空树；当 n>0 时，有且仅有一个<strong>根结点</strong>，其余结点可分为若干个互不相交的有限集，每个集合本身又是一棵树，称为根的<strong>子树</strong>。</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>术语</th><th>定义</th></tr>
+        <tr><td>结点的度</td><td>该结点拥有的子树个数（即子结点个数）</td></tr>
+        <tr><td>树的度</td><td>树中所有结点度的最大值</td></tr>
+        <tr><td>叶子结点（终端结点）</td><td>度为0的结点</td></tr>
+        <tr><td>分支结点（非终端结点）</td><td>度不为0的结点</td></tr>
+        <tr><td>孩子、双亲、兄弟</td><td>结点的子树的根称为孩子；该结点称为孩子的双亲；同一双亲的孩子互称兄弟</td></tr>
+        <tr><td>层次/深度</td><td>根为第1层，孩子层=双亲层+1</td></tr>
+        <tr><td>树的高度/深度</td><td>树中结点的最大层次</td></tr>
+        <tr><td>森林</td><td>m（m≥0）棵互不相交的树的集合</td></tr>
+      </table>
+    </div>
+
+    <h3>4.2 树的存储结构</h3>
+
+    <h4>标准形式（双亲表示法）</h4>
+    <p>每个结点存储数据和一个指向其双亲的指针。找双亲O(1)，找孩子O(n)。</p>
+
+    <h4>孩子表示法</h4>
+    <p>每个结点的孩子用链表存储。适合找孩子，不方便找双亲。</p>
+
+    <h4>孩子兄弟表示法（二叉树表示法）</h4>
+    <p>每个结点有两个指针：<strong>firstchild</strong>（指向第一个孩子）和 <strong>nextsibling</strong>（指向下一个兄弟）。</p>
+    <div class="tip-box">
+      <div class="tip-title">孩子兄弟表示法的意义</div>
+      <p>任何一棵树都可以通过孩子兄弟表示法转换成一棵<strong>二叉树</strong>，这是树与二叉树之间的重要桥梁。</p>
+    </div>
+
+    <h3>4.3 树的遍历</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>遍历方式</th><th>顺序</th></tr>
+        <tr><td>先根遍历（前序）</td><td>根 → 依次遍历每棵子树</td></tr>
+        <tr><td>后根遍历（后序）</td><td>依次遍历每棵子树 → 根</td></tr>
+        <tr><td>层次遍历</td><td>从上到下、从左到右逐层访问</td></tr>
+      </table>
+    </div>
+
+    <h3>4.4 二叉树</h3>
+    <div class="def-box">
+      <div class="def-title">二叉树（Binary Tree）</div>
+      <p>二叉树是每个结点<strong>最多有两棵子树</strong>的有序树。二叉树的子树有左右之分，次序不能颠倒。</p>
+    </div>
+
+    <h4>特殊二叉树</h4>
+    <div class="table-wrap">
+      <table>
+        <tr><th>类型</th><th>定义</th></tr>
+        <tr><td>满二叉树</td><td>深度为k且有 2ᵏ-1 个结点的二叉树。每层结点数都达到最大值。</td></tr>
+        <tr><td>完全二叉树</td><td>深度为k的二叉树，前k-1层是满的，第k层结点都集中在左侧。</td></tr>
+        <tr><td>二叉搜索树BST</td><td>左子树所有结点 &lt; 根 &lt; 右子树所有结点</td></tr>
+        <tr><td>平衡二叉树AVL</td><td>左右子树高度差不超过1的二叉搜索树</td></tr>
+      </table>
+    </div>
+
+    <div class="warn-box">
+      <div class="warn-title">满二叉树 vs 完全二叉树</div>
+      <p>满二叉树一定是完全二叉树，但完全二叉树不一定是满二叉树。完全二叉树的特点是：最后一层结点集中在左边，缺少的结点只能在右边。</p>
+    </div>
+
+    <h3>4.5 二叉树的性质</h3>
+
+    <div class="def-box">
+      <div class="def-title">性质1</div>
+      <p>二叉树第 i 层上至多有 <strong>2^(i-1)</strong> 个结点（i≥1）。</p>
+    </div>
+
+    <div class="def-box">
+      <div class="def-title">性质2</div>
+      <p>深度为 k 的二叉树至多有 <strong>2ᵏ - 1</strong> 个结点（k≥1）。</p>
+    </div>
+
+    <div class="def-box">
+      <div class="def-title">性质3</div>
+      <p>对任何一棵二叉树，若叶子结点数为 n₀，度为2的结点数为 n₂，则 <strong>n₀ = n₂ + 1</strong>。</p>
+    </div>
+
+    <div class="tip-box">
+      <div class="tip-title">性质3证明思路</div>
+      <p>设度为1的结点数为 n₁，总结点数 n = n₀ + n₁ + n₂。</p>
+      <p>从分支数看：n = 分支数 + 1 = (n₁ + 2×n₂) + 1。</p>
+      <p>联立得：n₀ + n₁ + n₂ = n₁ + 2n₂ + 1，化简得 n₀ = n₂ + 1。</p>
+    </div>
+
+    <div class="def-box">
+      <div class="def-title">性质4（完全二叉树）</div>
+      <p>具有 n 个结点的完全二叉树的深度为 <strong>⌊log₂n⌋ + 1</strong> 或 <strong>⌈log₂(n+1)⌉</strong>。</p>
+    </div>
+
+    <div class="def-box">
+      <div class="def-title">性质5（完全二叉树顺序存储）</div>
+      <p>对完全二叉树按层次编号（从1开始），对任意结点 i：</p>
+      <p>双亲：⌊i/2⌋；左孩子：2i；右孩子：2i+1。</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title">例题 4-1</div>
+      <div class="ex-question">
+        一棵二叉树有 10 个度为2的结点，5个度为1的结点，问叶子结点有多少个？
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">解析</div>
+        <p>由性质3：n₀ = n₂ + 1 = 10 + 1 = <strong>11</strong>。</p>
+        <p>总结点数 = n₀ + n₁ + n₂ = 11 + 5 + 10 = 26。</p>
+      </div>
+    </div>
+
+    <h3>4.6 二叉树的遍历</h3>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>遍历方式</th><th>顺序</th><th>记忆口诀</th></tr>
+        <tr><td>前序遍历（DLR）</td><td>根 → 左子树 → 右子树</td><td>根左右</td></tr>
+        <tr><td>中序遍历（LDR）</td><td>左子树 → 根 → 右子树</td><td>左根右</td></tr>
+        <tr><td>后序遍历（LRD）</td><td>左子树 → 右子树 → 根</td><td>左右根</td></tr>
+        <tr><td>层次遍历</td><td>从上到下，从左到右</td><td>逐层访问</td></tr>
+      </table>
+    </div>
+
+    <h4>递归实现（带详细注释）</h4>
+    <pre><code>// 算法思想：递归遍历二叉树
+// 递归的本质：将大问题分解为相似的子问题
+// 时间复杂度：O(n)，每个结点访问一次
+// 空间复杂度：O(h)，h为树的高度，递归栈的深度
+
+// 前序遍历：根 → 左子树 → 右子树
+// 口诀：根左右
+void PreOrder(BiTree T) {
+    // 递归终止条件：空树不需要遍历
+    // 这是递归的边界条件，防止无限递归
+    if(T != NULL) {
+        visit(T);            // 步骤1：先访问根结点
+        // 为什么先访问根？因为前序遍历的定义就是"根"在最前面
+        
+        PreOrder(T->lchild); // 步骤2：递归遍历左子树
+        // 递归调用：把左子树当作一棵新的二叉树进行前序遍历
+        // 左子树遍历完后，才会执行下一步
+        
+        PreOrder(T->rchild); // 步骤3：递归遍历右子树
+        // 右子树遍历完后，当前递归层结束，返回到上一层
+    }
+}
+
+// 中序遍历：左子树 → 根 → 右子树
+// 口诀：左根右
+void InOrder(BiTree T) {
+    if(T != NULL) {
+        InOrder(T->lchild);  // 步骤1：先递归遍历左子树
+        // 左子树的所有结点都在根之前访问
+        
+        visit(T);            // 步骤2：访问根结点
+        // 左子树遍历完后，根是下一个要访问的
+        
+        InOrder(T->rchild);  // 步骤3：递归遍历右子树
+        // 最后遍历右子树
+    }
+}
+
+// 后序遍历：左子树 → 右子树 → 根
+// 口诀：左右根
+void PostOrder(BiTree T) {
+    if(T != NULL) {
+        PostOrder(T->lchild); // 步骤1：先递归遍历左子树
+        
+        PostOrder(T->rchild); // 步骤2：再递归遍历右子树
+        // 注意：左右子树都遍历完后，才能访问根
+        // 因为根要在左右子树的所有结点之后访问
+        
+        visit(T);             // 步骤3：最后访问根结点
+    }
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">递归遍历执行顺序示例</div>
+      <div class="ex-question">
+        二叉树结构：A为根，左孩子B，右孩子C；B的左孩子D，右孩子E。<br>
+        写出前序、中序、后序遍历的执行顺序。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">执行过程</div>
+        <p><strong>前序遍历（根左右）</strong>：</p>
+        <p>访问A → 递归左子树B → 访问B → 递归左子树D → 访问D → 递归右子树E → 访问E → 递归右子树C → 访问C</p>
+        <p>结果：<strong>A B D E C</strong></p>
+        <p><strong>中序遍历（左根右）</strong>：</p>
+        <p>递归左子树D → 访问D → 访问B → 递归右子树E → 访问E → 访问A → 递归右子树C → 访问C</p>
+        <p>结果：<strong>D B E A C</strong></p>
+        <p><strong>后序遍历（左右根）</strong>：</p>
+        <p>递归左子树D → 访问D → 递归右子树E → 访问E → 访问B → 递归右子树C → 访问C → 访问A</p>
+        <p>结果：<strong>D E B C A</strong></p>
+      </div>
+    </div>
+
+    <h4>非递归实现（中序遍历，用栈，带详细注释）</h4>
+    <pre><code>// 算法思想：用栈模拟递归过程
+// 递归的本质是系统栈，非递归遍历就是手动维护一个栈
+// 核心思路：
+//   1. 一路向左，将所有左子结点入栈（模拟递归深入左子树）
+//   2. 左子树到底后，弹出栈顶访问（模拟递归返回时访问根）
+//   3. 转向右子树，重复上述过程
+// 时间复杂度：O(n)
+// 空间复杂度：O(h)，h为树的高度
+
+void InOrder_NonRec(BiTree T) {
+    // 步骤1：初始化栈
+    Stack S;
+    InitStack(S);       // 创建一个空栈，用于保存待处理的结点
+    
+    // 步骤2：p指向根结点，开始遍历
+    BiTree p = T;
+    
+    // 步骤3：循环遍历，条件是p不为空或栈不为空
+    // p不为空：还有结点需要处理（向右子树深入时）
+    // 栈不为空：还有结点待访问（向左子树回退时）
+    while(p != NULL || !StackEmpty(S)) {
+        
+        // 步骤4：如果p不为空，将p入栈，然后继续向左深入
+        // 这对应递归中的 "InOrder(T->lchild)"
+        // 为什么要入栈？因为要保存当前结点的位置，以便左子树遍历完后回来访问它
+        if(p != NULL) {
+            Push(S, p);         // 当前结点入栈，待左子树遍历完后访问
+            p = p->lchild;      // p指向左孩子，继续向左深入
+        }
+        else {
+            // 步骤5：p为空，说明左子树到底了
+            // 弹出栈顶结点访问（这就是当前子树的根）
+            // 这对应递归中的 "visit(T)"
+            p = Pop(S);         // 弹出栈顶，这就是当前子树的根
+            visit(p);           // 访问该结点
+            
+            // 步骤6：转向右子树
+            // 这对应递归中的 "InOrder(T->rchild)"
+            p = p->rchild;      // p指向右孩子，开始遍历右子树
+        }
+    }
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">非递归中序遍历栈的变化示例</div>
+      <div class="ex-question">
+        二叉树：A为根，左B，右C；B的左D，右E。写出非递归中序遍历的栈变化过程。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">栈的变化过程</div>
+        <p><strong>初始</strong>：p=A，栈=[]</p>
+        <p>p=A入栈，p=B → 栈=[A]</p>
+        <p>p=B入栈，p=D → 栈=[A,B]</p>
+        <p>p=D入栈，p=NULL → 栈=[A,B,D]</p>
+        <p>p=NULL，弹出D访问，p=D的右=NULL → 栈=[A,B]，输出：D</p>
+        <p>p=NULL，弹出B访问，p=B的右=E → 栈=[A]，输出：D B</p>
+        <p>p=E入栈，p=NULL → 栈=[A,E]</p>
+        <p>p=NULL，弹出E访问，p=E的右=NULL → 栈=[A]，输出：D B E</p>
+        <p>p=NULL，弹出A访问，p=A的右=C → 栈=[]，输出：D B E A</p>
+        <p>p=C入栈，p=NULL → 栈=[C]</p>
+        <p>p=NULL，弹出C访问，p=C的右=NULL → 栈=[]，输出：D B E A C</p>
+        <p>p=NULL且栈空，结束。最终结果：<strong>D B E A C</strong></p>
+      </div>
+    </div>
+
+    <h3>4.7 由遍历序列确定二叉树</h3>
+    <div class="tip-box">
+      <div class="tip-title">确定二叉树的条件</div>
+      <p><strong>前序+中序</strong>：可以唯一确定一棵二叉树</p>
+      <p><strong>后序+中序</strong>：可以唯一确定一棵二叉树</p>
+      <p><strong>前序+后序</strong>：<strong>不能</strong>唯一确定（除非是完全二叉树）</p>
+    </div>
+
+    <h4>由前序+中序确定二叉树的详细步骤</h4>
+    <pre><code>// 算法思想：前序的第一个元素是根，在中序中找到根的位置，左边是左子树，右边是右子树
+// 步骤：
+//   1. 前序序列的第一个元素是当前子树的根
+//   2. 在中序序列中找到该根的位置
+//   3. 中序中根左边的元素构成左子树的中序序列
+//   4. 中序中根右边的元素构成右子树的中序序列
+//   5. 根据左子树的结点个数，在前序中划分出左子树的前序序列和右子树的前序序列
+//   6. 递归构建左子树和右子树
+// 时间复杂度：O(n²)（每次在中序中查找根的位置），可以优化到O(n)</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">例题 4-2：详细推导过程</div>
+      <div class="ex-question">
+        已知前序序列为 ABDECF，中序序列为 DBEACF，画出该二叉树。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">详细解析</div>
+        <p><strong>第1步：确定整棵树的根</strong></p>
+        <p>前序第一个元素 A 是整棵树的根。</p>
+        <p>在中序 DBEACF 中找到 A，A 左边 DBE 是左子树的中序，右边 CF 是右子树的中序。</p>
+        <p>左子树有3个结点，所以前序中 A 后面的3个元素 BDE 是左子树的前序，剩下的 CF 是右子树的前序。</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>第2步：构建左子树</strong></p>
+        <p>左子树前序：BDE，左子树中序：DBE</p>
+        <p>前序第一个 B 是左子树的根。</p>
+        <p>在中序 DBE 中找到 B，B 左边 D 是左子树的中序，右边 E 是右子树的中序。</p>
+        <p>左子树有1个结点，前序中 B 后面1个元素 D 是左子树的前序，剩下 E 是右子树的前序。</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>第3步：构建B的左子树</strong></p>
+        <p>前序：D，中序：D。D是叶子结点。</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>第4步：构建B的右子树</strong></p>
+        <p>前序：E，中序：E。E是叶子结点。</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>第5步：构建右子树</strong></p>
+        <p>右子树前序：CF，右子树中序：CF</p>
+        <p>前序第一个 C 是右子树的根。</p>
+        <p>在中序 CF 中找到 C，C 左边无元素（左子树为空），右边 F 是右子树的中序。</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>第6步：构建C的右子树</strong></p>
+        <p>前序：F，中序：F。F是叶子结点。</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>最终树结构</strong>：</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;\</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;B&nbsp;&nbsp;&nbsp;C</p>
+        <p>&nbsp;&nbsp;&nbsp;/&nbsp;\&nbsp;&nbsp;&nbsp;&nbsp;\</p>
+        <p>&nbsp;&nbsp;D&nbsp;&nbsp;&nbsp;E&nbsp;&nbsp;&nbsp;&nbsp;F</p>
+      </div>
+    </div>
+
+    <h3>4.8 Huffman树与Huffman编码</h3>
+
+    <h4>基本概念</h4>
+    <div class="def-box">
+      <div class="def-title">带权路径长度（WPL）</div>
+      <p>设二叉树有 n 个叶子结点，每个叶子结点带有权值 wₖ，从根到该叶子的路径长度为 lₖ，则树的带权路径长度为：</p>
+      <p style="text-align:center;font-weight:600;">WPL = Σ(wₖ × lₖ) ，k=1到n</p>
+    </div>
+
+    <div class="def-box">
+      <div class="def-title">Huffman树（最优二叉树）</div>
+      <p>Huffman树是带权路径长度 <strong>WPL最小</strong> 的二叉树。Huffman树中没有度为1的结点（正则二叉树）。</p>
+    </div>
+
+    <h4>Huffman树构造算法（带详细注释）</h4>
+    <pre><code>// 算法思想：贪心算法，每次选择权值最小的两棵树合并
+// 步骤：1) 初始化n棵单结点树 2) 循环n-1次，每次选两棵最小的树合并 3) 新树的权值为两子树权值之和
+// 时间复杂度：O(n log n)（使用优先队列/堆）
+// 空间复杂度：O(n)
+
+// 哈夫曼树结点定义
+typedef struct HTNode {
+    int weight;              // 权值
+    int parent;              // 双亲结点在数组中的下标，-1表示无双亲
+    int lchild;              // 左孩子在数组中的下标，-1表示无左孩子
+    int rchild;              // 右孩子在数组中的下标，-1表示无右孩子
+} HTNode, *HuffmanTree;
+
+// 构造Huffman树
+// n：叶子结点数，w[]：n个叶子结点的权值
+void CreateHuffmanTree(HuffmanTree &HT, int w[], int n) {
+    // 步骤1：计算总结点数
+    // n个叶子结点的Huffman树共有 2n-1 个结点（因为没有度为1的结点）
+    int m = 2 * n - 1;
+    
+    // 步骤2：分配内存，初始化所有结点
+    HT = (HuffmanTree)malloc((m + 1) * sizeof(HTNode));
+    // 注意：这里用下标1到m，下标0不用，方便计算
+    
+    // 初始化所有结点的parent、lchild、rchild为-1
+    for(int i = 1; i <= m; i++) {
+        HT[i].parent = -1;
+        HT[i].lchild = -1;
+        HT[i].rchild = -1;
+    }
+    
+    // 步骤3：设置前n个结点的权值（叶子结点）
+    for(int i = 1; i <= n; i++) {
+        HT[i].weight = w[i-1];  // w数组下标从0开始
+    }
+    
+    // 步骤4：循环n-1次，每次合并两棵权值最小的树
+    // 为什么n-1次？因为n棵独立的树，每次合并减少1棵，最后剩1棵，需要合并n-1次
+    for(int i = n + 1; i <= m; i++) {
+        // 步骤4.1：在已有的树中选择两棵权值最小的树
+        // 选择条件：parent == -1（还没有被合并到其他树中）
+        int s1, s2;  // s1和s2分别指向两棵最小树的根结点下标
+        Select(HT, i - 1, s1, s2);
+        // Select函数在HT[1..i-1]中找出parent==-1且weight最小的两个结点
+        // s1是weight最小的，s2是weight次小的
+        
+        // 步骤4.2：合并两棵树
+        // 新结点i的左孩子是s1，右孩子是s2
+        HT[s1].parent = i;      // s1的双亲指向新结点i
+        HT[s2].parent = i;      // s2的双亲指向新结点i
+        HT[i].lchild = s1;      // 新结点i的左孩子是s1
+        HT[i].rchild = s2;      // 新结点i的右孩子是s2
+        HT[i].weight = HT[s1].weight + HT[s2].weight;
+        // 新结点的权值为两孩子权值之和
+        
+        // 为什么权值小的做左孩子？这不是必须的，但通常约定如此
+    }
+}</code></pre>
+
+    <div class="example-box">
+      <div class="ex-title">例题 4-3：Huffman树构造详细过程</div>
+      <div class="ex-question">
+        给定权值 {5, 2, 9, 4, 7}，构造Huffman树并计算WPL。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">详细构造过程</div>
+        <p><strong>初始状态</strong>：5棵独立的树，权值分别为 5, 2, 9, 4, 7</p>
+        <p>用圆圈表示：② ④ ⑤ ⑦ ⑨</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>第1次合并</strong>：选择权值最小的两棵：② 和 ④</p>
+        <p>合并为新树，根权值 = 2+4 = ⑥</p>
+        <p>剩余树：⑤ ⑥ ⑦ ⑨（4棵）</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;⑥</p>
+        <p>&nbsp;&nbsp;&nbsp;/&nbsp;\</p>
+        <p>&nbsp;&nbsp;②&nbsp;&nbsp;&nbsp;④</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>第2次合并</strong>：选择权值最小的两棵：⑤ 和 ⑥</p>
+        <p>合并为新树，根权值 = 5+6 = ⑪</p>
+        <p>剩余树：⑦ ⑨ ⑪（3棵）</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⑪</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;\</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;⑤&nbsp;&nbsp;&nbsp;⑥</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;\</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;&nbsp;④</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>第3次合并</strong>：选择权值最小的两棵：⑦ 和 ⑨</p>
+        <p>合并为新树，根权值 = 7+9 = ⑯</p>
+        <p>剩余树：⑪ ⑯（2棵）</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;⑯</p>
+        <p>&nbsp;&nbsp;&nbsp;/&nbsp;\</p>
+        <p>&nbsp;&nbsp;⑦&nbsp;&nbsp;&nbsp;⑨</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>第4次合并</strong>：合并最后两棵：⑪ 和 ⑯</p>
+        <p>根权值 = 11+16 = ㉗</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;㉗</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;\</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⑪&nbsp;&nbsp;&nbsp;⑯</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;\&nbsp;&nbsp;&nbsp;/&nbsp;\</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⑤&nbsp;&nbsp;⑥&nbsp;⑦&nbsp;&nbsp;⑨</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;\</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;②&nbsp;&nbsp;&nbsp;④</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>WPL计算</strong>：各叶子结点的权值 × 深度</p>
+        <p>②：深度3，贡献 = 2×3 = 6</p>
+        <p>④：深度3，贡献 = 4×3 = 12</p>
+        <p>⑤：深度2，贡献 = 5×2 = 10</p>
+        <p>⑦：深度2，贡献 = 7×2 = 14</p>
+        <p>⑨：深度2，贡献 = 9×2 = 18</p>
+        <p>WPL = 6 + 12 + 10 + 14 + 18 = <strong>60</strong></p>
+      </div>
+    </div>
+
+    <h4>Huffman编码</h4>
+    <p>Huffman编码是一种<strong>前缀编码</strong>，用于数据压缩。构造方法：在Huffman树中，从根到叶子的路径，左分支标0，右分支标1，从根到叶子的0/1序列就是该字符的编码。</p>
+
+    <div class="tip-box">
+      <div class="tip-title">前缀编码</div>
+      <p>前缀编码是指任何一个字符的编码都<strong>不是</strong>另一个字符编码的前缀。这样可以保证解码时无歧义。Huffman编码天然满足前缀编码的性质。</p>
+    </div>
+
+    <div class="example-box">
+      <div class="ex-title">Huffman编码示例</div>
+      <div class="ex-question">
+        基于上面的Huffman树，写出各叶子结点的Huffman编码。
+      </div>
+      <div class="ex-answer">
+        <div class="ans-label">编码推导</div>
+        <p>从根结点㉗开始，左分支标0，右分支标1：</p>
+        <p>②：㉗→⑪→⑥→②，路径：左→左→左，编码：<strong>000</strong></p>
+        <p>④：㉗→⑪→⑥→④，路径：左→左→右，编码：<strong>001</strong></p>
+        <p>⑤：㉗→⑪→⑤，路径：左→右，编码：<strong>01</strong></p>
+        <p>⑦：㉗→⑯→⑦，路径：右→左，编码：<strong>10</strong></p>
+        <p>⑨：㉗→⑯→⑨，路径：右→右，编码：<strong>11</strong></p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>验证前缀编码性质</strong>：</p>
+        <p>000, 001, 01, 10, 11 中，没有任何一个编码是另一个编码的前缀。</p>
+        <p>例如：01 不是 000 的前缀，10 不是 11 的前缀。</p>
+        <p>-------------------------------------------------------------</p>
+        <p><strong>编码示例</strong>：若原数据序列为 ⑤②⑨④</p>
+        <p>Huffman编码为：01 000 11 001</p>
+        <p>共10位二进制。若用等长编码（每个字符3位），需要12位。</p>
+        <p>压缩率 = (12-10)/12 ≈ 16.7%</p>
+      </div>
+    </div>
+
+    <h4>Huffman编码</h4>
+    <p>Huffman编码是一种<strong>前缀编码</strong>，用于数据压缩。构造方法：在Huffman树中，从根到叶子的路径，左分支标0，右分支标1，从根到叶子的0/1序列就是该字符的编码。</p>
+
+    <div class="tip-box">
+      <div class="tip-title">前缀编码</div>
+      <p>前缀编码是指任何一个字符的编码都<strong>不是</strong>另一个字符编码的前缀。这样可以保证解码时无歧义。Huffman编码天然满足前缀编码的性质。</p>
+    </div>
+
+    <div class="quick-summary">
+      <h4>本章速记</h4>
+      <ul>
+        <li>树的度 = 所有结点度的最大值；叶子 = 度为0的结点</li>
+        <li>二叉树性质：第i层最多 <strong>2^(i-1)</strong>；深度k最多 <strong>2ᵏ-1</strong>；<strong>n₀=n₂+1</strong></li>
+        <li>遍历口诀：前序<strong>根左右</strong>，中序<strong>左根右</strong>，后序<strong>左右根</strong></li>
+        <li>确定二叉树：<strong>前序+中序</strong>或<strong>后序+中序</strong>可以唯一确定</li>
+        <li>Huffman树：WPL最小，构造时每次选两个最小权值合并</li>
+        <li>Huffman编码是<strong>前缀编码</strong>，左0右1</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div style="text-align:center; padding: 40px 20px; color: var(--muted); font-size: 0.85rem; background: var(--bg2); border-top: 1px solid var(--rule);">
+  <p>数据结构期末复习 | 第0~4章 | 祝考试顺利！</p>
+  <p style="margin-top:8px;"><a href="ds-review.html" style="color:var(--accent);">返回主页</a> | <a href="ds-review-part2.html" style="color:var(--accent);">第5~8章</a> | <a href="ds-review-examples.html" style="color:var(--accent);">例题汇总</a></p>
+</div>
+
+<a href="#" class="back-to-top">&#8593;</a>
+
+<script>
+// Active nav link on scroll
+const chapters = document.querySelectorAll('.chapter[id]');
+const navLinks = document.querySelectorAll('.nav-bar a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  chapters.forEach(ch => {
+    const top = ch.offsetTop;
+    if (scrollY >= top - 120) current = ch.getAttribute('id');
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
